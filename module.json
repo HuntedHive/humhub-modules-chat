@@ -1,0 +1,13 @@
+{
+    "id": "chat",
+    "name": "Chat",
+    "description": "Chat on WebSocket(Ratchet)",
+    "keywords": [
+        "chat", "wbschat", "wbschatsmile"
+    ],
+    "version": "0.1",
+    "humhub": {
+        "minVersion": "0.8"
+    },
+    "screenshots": ["assets/screen1.jpg","assets/screen2.jpg"]
+}
