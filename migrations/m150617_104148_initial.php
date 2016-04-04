@@ -27,10 +27,13 @@ class m150617_104148_initial extends EDbMigration
                 'updated_by' => 'int(11) NOT NULL',
             ], ''
         );
+        
+        $this->addColumn('tbl_posts', 'email', 'VARCHAR(150) AFTER `name` ');
     }
 
     public function down()
     {
+        $this->dropColumn('user', 'is_chating', "INT NOT NULL DEFAULT  '1'");
         $this->dropTable("wbs_chat");
         $this->dropTable("wbs_smiles");
     }

@@ -38,10 +38,12 @@ class ChatAdminController extends Controller
     public function actionIndex()
     {
         $dataProvider = new CActiveDataProvider('WBSChatSmile');
+        $dataProviderUser = new CActiveDataProvider('User');
         $model        = new WBSChatSmile; // error
         $this->render("index", [
             'dataProvider' => $dataProvider,
             'model' => $model,
+            'dataProviderUser' => $dataProviderUser,
         ]);
     }
 
@@ -64,6 +66,17 @@ class ChatAdminController extends Controller
     public function actionDelete($id)
     {
         WBSChatSmile::model()->deleteByPk($id);
+    }
+    
+    public function actionBan()
+    {
+        if (isset($_POST['pk']) && isset($_POST['value'])) {
+            $pk = $_POST['pk'];
+            $value = $_POST['value'];
+            User::model()->updateAll(['is_chating' => $value], 'id=' . $pk);
+        } else {
+            echo "Error of data editing";
+        }
     }
     
     protected function performAjaxValidation($model)

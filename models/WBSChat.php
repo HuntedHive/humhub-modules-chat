@@ -2,6 +2,15 @@
 
 class WBSChat extends HActiveRecord
 {
+    
+    const ABLE_WRITE = 1;
+    const DISABLE_WRITE = 0;
+    
+    public static $write = [
+        self::ABLE_WRITE => 'not banned',
+        self::DISABLE_WRITE => 'has banned',
+    ];
+    
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.

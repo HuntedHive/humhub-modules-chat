@@ -1,3 +1,6 @@
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
 <?php
 
 $form = $this->beginWidget('HActiveForm',
@@ -47,3 +50,37 @@ $this->widget('zii.widgets.grid.CGridView',
         ),
     ),
 ));
+?>
+<h3>User ban list</h3>
+
+<?php
+$this->widget('zii.widgets.grid.CGridView',
+    array(
+    'dataProvider' => $dataProviderUser,
+    'columns' => array(
+        'username',
+        array(
+                'type'=>'html',
+                'value' => function ($data) {
+                    echo CHtml::link(WBSChat::$write[$data->is_chating], "#", array("class" => "editable-flag", "data-pk" => $data->id));
+                },
+                'name' => 'is_chating',
+        ),
+    ),
+));
+?>
+
+<script>
+    $(document).ready(function(){
+        var select = '<?= json_encode(WBSChat::$write) ?>';
+    
+            $('.editable-flag').editable({
+                mode: 'inline',
+                type: 'select',
+                send: 'always',
+                source: JSON.parse(select),
+                url: window.location.href.split('?')[0]+"?r=chat/chatAdmin/ban", //ban action
+                dataType: 'post'
+            });
+    });
+</script>

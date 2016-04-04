@@ -84,59 +84,79 @@
 .message-edit img {
     width: 30px;
 }
+
+.message-default img {
+    width: 30px;
+}
 </style>
 <script>
     $(document).ready(function() {
+        
+        //Set connection with server
         var conn = new WebSocket('ws://localhost:8080?code=<?= Yii::app()->user->guid ?>');
         conn.onopen = function(e) {
         };
         
+        // On server answer
         conn.onmessage = function(e) {
-            var html = $("#messages").html();
-            $("#messages").html(html + e.data+"<br>");
+            //Edit
+            if(typeof JSON.parse(e.data) == "object") {
+                var pk = JSON.parse(e.data)[0];
+                var text = JSON.parse(e.data)[1];
+                $(".mes > [data-pk='"+pk+"']").html('').removeAttr("style").html(text);
+                
+            } else { // Add new message
+                var html = $("#messages").html();
+                $("#messages").html(html + JSON.parse(e.data)+"<br>");
+            }
             
+            //after append html add to all messages editable
             $('.message-edit').editable({
-                            placement: 'right',
-                            mode: 'inline',
-                            type: 'textarea',
-                            toggle: 'manual',
-                            url: window.location.href.split('?')[0]+"?r=chat/chat/edit", //history of chat
-                            dataType: 'post',
-                            success: function(response, newValue) {
-                                 $(this).html(response);
-                            },
-                            display: function(value) {
-                                $(this).html(1234);
-                            }
-                        });
+                placement: 'right',
+                mode: 'inline',
+                type: 'textarea',
+                toggle: 'manual',
+                url: window.location.href.split('?')[0]+"?r=chat/chat/edit", //history of chat
+                dataType: 'post',
+                success: function(response, newValue) {
+                     // $(this).html(response);
+                },
+                display: function(value) {
+                }
+            });
         };
         
+        // popup smiles block
         $(".block-smile img").on("click",function() {
             $(".icons").toggle();
         });
         
+        // On click smile add to input text field
         $(".icon").on("click", function() {
             var text = $(".input_text").val();
-            console.log(text);
             $(".input_text").val('');
             $(".input_text").val(text +' '+ $(this).data('symbol') + ' ');
         });
         
+        // On click submit button send to server message
         $(".send-message").on("click", function() {
-            conn.send($(".input_text").val());
+            conn.send(JSON.stringify($(".input_text").val()));
             $(".input_text").val('');
         });
         
+        // On up mouse message block show icon of editing but of current user
         $("body").on("mouseover", ".mes", function() {
             $(this).find(".edit-icon").show(100);
         });
         
+        // On mouse leave message block, hide icon
         $("body").on("mouseleave", ".mes", function() {
             $(this).find(".edit-icon").hide(70);
         });
         
+        // Mention enter symbol @
         $('.input_text').textcomplete([
-            { // html
+            {
                 match: /\B@(\w*)$/,
                 search: function (term, callback) {
                     $.post(window.location.href.split('?')[0]+"?r=chat/chat/users",function(data) { // get all user name to @mention list
@@ -158,6 +178,7 @@
             }
         ]);
         
+        // On scroll history to top get last messages
         $("#messages").scroll(function(e) {
             var height = $(this).scrollTop();
             if(height == 0) {
@@ -177,7 +198,7 @@
                             url: window.location.href.split('?')[0]+"?r=chat/chat/edit", //history of chat
                             dataType: 'post',
                             success: function(response, newValue) {
-                                 $(this).html(response);
+                                // $(this).html(345);
                             },
                             display: function(value) {
                                 // none
@@ -188,35 +209,55 @@
             }
         });
         
+        // On reload page set up editable to all messages-edit
         $('.message-edit').editable({
             placement: 'right',
             mode: 'inline',
             type: 'textarea',
             toggle: 'manual',
-            url: window.location.href.split('?')[0]+"?r=chat/chat/edit", //history of chat
+            url: window.location.href.split('?')[0]+"?r=chat/chat/edit", // Edit message
             dataType: 'post',
             success: function(response, newValue) {
-                 $(this).html(response);
+                // $(this).html(123);
             },
-            emptytext: '1234',
-            display: function(value) {
+             display: function(value) {
                 // none
             }
         });
+        
+        // Rewrite method on editin field inline
         $(document).on("click",".edit-icon", function(e) {
             e.stopPropagation();
+            $(".editableform-loading").remove();
             var span = $(this).parents(".mes").find(".message-edit");
             var text = validateText(span.html());
             span.editable('toggle');
             $('.editable-input textarea').val(text);
         });
         
+        // Send to server edit text with (pk) and (text)
+        $(document).on("click",".editable-submit", function() {
+            var text = $(this).parents(".editableform").find(".editable-input textarea").val();
+            var pk = $(this).parents(".mes").find(".message-edit").data('pk');
+            var items = new Array;
+            items[0] = pk;
+            items[1] = text;
+            var result = JSON.stringify(items);
+            conn.send(result);
+            $(".editable-container").hide();
+            return true;
+        });
+        
+        // Unvalid messages
         function validateText(text)
         {
-            return text.replace(/(<img src="(.*?)" data-symbol="(.*?)">)/g,'$3');
+            var value = text.replace(/(<img src="(.*?)" data-symbol="(.*?)">)/g,'$3');
+            value = value.replace(/(<span class="mention">(.*?)<\/span>)/g,'$2');
+            value = value.replace(/(<a target="_blank" style="color:blue;text-decoration:underline;" href="(.*?)">(.*?)<\/a>)/g,'$2');
+            return value;
         }
-        //window.clearInterval(message);
         
+        // On load page scroll chat to bottom
         var wtf    = $('#messages');
         var height = wtf[0].scrollHeight;
         wtf.scrollTop(height);

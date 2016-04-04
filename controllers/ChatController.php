@@ -70,7 +70,7 @@ class ChatController extends Controller
     
     public function actionEdit()
     {
-        if (isset($_POST['pk']) && isset($_POST['value'])) {
+        if (isset($_POST['pk']) && isset($_POST['value']) && (bool)Yii::app()->user->id) {
             $pk = $_POST['pk'];
             $value = $_POST['value'];
             $value = $this->validateText($value);
@@ -110,7 +110,7 @@ class ChatController extends Controller
         foreach ($messages as $message) {
                 $profile = Profile::model()->find('user_id='. $message['user_id']);
                 $user_name = $profile->firstname . " " . $profile->lastname;
-                $span = ($message['user_id'] == Yii::app()->user->id)?"<span data-pk='$message[id]' class='message-edit editable-click'>:msg</span>" . "<i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i>":"<span class='message-default'>:msg</span>";
+                $span = ($message['user_id'] == Yii::app()->user->id)?"<span data-pk='$message[id]' class='message-edit editable-click'>:msg</span>" . "<i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i>":"<span data-pk='$message[id]' class='message-default'>:msg</span>";
                 $tmp = $this->toLink($message['text']);
                 $tmp = $this->toSmile($tmp);
                 $tmp = $this->getMentions($tmp);
