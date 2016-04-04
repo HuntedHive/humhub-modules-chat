@@ -19,7 +19,7 @@ class ChatEvents
             'label' => Yii::t('MailModule.base', 'Chat'),
             'url' => Yii::app()->createUrl('/chat/chat/index', array()),
             'icon' => '<i class="fa fa-envelope"></i>',
-            'isActive' => (Yii::app()->controller->module && Yii::app()->controller->module->id == 'chat'),
+            'isActive' => (Yii::app()->controller->module && Yii::app()->controller->module->id == 'chat' && Yii::app()->controller->id == 'chat'),
             'sortOrder' => 300,
         ));
     }
@@ -34,15 +34,15 @@ class ChatEvents
         if (Yii::app()->user->isGuest) {
             return;
         }
-        
+        echo Yii::app()->controller->module->id;
         $event->sender->addItem(array(
             'label' => Yii::t('AdminModule.widgets_AdminMenuWidget', 'Chat Module'),
             'url' => Yii::app()->createUrl('chat/chatAdmin/index'),
             'icon' => '<i class="fa fa-user"></i>',
-            'sortOrder' => 10000,
+            'sortOrder' => 700,
             'group' => 'manage',
             'newItemCount' => 0,
-            'isActive' => (Yii::app()->controller->module && Yii::app()->controller->module->id == 'admin' && Yii::app()->controller->id == 'chat'),
+            'isActive' => (Yii::app()->controller->module && Yii::app()->controller->module->id == 'chat' && Yii::app()->controller->id == 'chatAdmin'),
             'isVisible' => Yii::app()->user->isAdmin(),
         ));
     }
