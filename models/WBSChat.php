@@ -1,6 +1,6 @@
 <?php
 
-class WBSChat extends HActiveRecord
+class WBSChat extends HActiveRecordContent
 {
     
     const ABLE_WRITE = 1;
