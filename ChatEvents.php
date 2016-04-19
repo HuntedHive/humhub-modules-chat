@@ -34,7 +34,6 @@ class ChatEvents
         if (Yii::app()->user->isGuest) {
             return;
         }
-        echo Yii::app()->controller->module->id;
         $event->sender->addItem(array(
             'label' => Yii::t('AdminModule.widgets_AdminMenuWidget', 'Chat Module'),
             'url' => Yii::app()->createUrl('chat/chatAdmin/index'),
@@ -45,6 +44,15 @@ class ChatEvents
             'isActive' => (Yii::app()->controller->module && Yii::app()->controller->module->id == 'chat' && Yii::app()->controller->id == 'chatAdmin'),
             'isVisible' => Yii::app()->user->isAdmin(),
         ));
+    }
+
+    public static function onActivityInit($event)
+    {
+        if (Yii::app()->user->isGuest) {
+            return;
+        }
+
+        $event->sender->addWidget('application.modules.chat.widgets.MyTasksWidget', array(), array('sortOrder' => 1));
     }
 
 }
