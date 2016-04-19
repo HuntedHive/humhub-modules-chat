@@ -109,7 +109,12 @@ class ChatController extends Controller
         $msg.= '<div class="part-message">';
         foreach ($messages as $message) {
                 $profile = Profile::model()->find('user_id='. $message['user_id']);
-                $user_name = $profile->firstname . " " . $profile->lastname;
+                if(!empty($profile)) {
+                    $user_name = $profile->firstname . " " . $profile->lastname;
+                } else {
+                    $user_name = "user_" . $message['user_id'];
+                }
+
                 $span = ($message['user_id'] == Yii::app()->user->id)?"<span data-pk='$message[id]' class='message-edit editable-click'>:msg</span>" . "<i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i>":"<span data-pk='$message[id]' class='message-default'>:msg</span>";
                 $tmp = $this->toLink($message['text']);
                 $tmp = $this->toSmile($tmp);
