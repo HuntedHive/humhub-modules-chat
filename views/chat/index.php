@@ -35,7 +35,7 @@
                 type: 'textarea',
                 rows: '1',
                 toggle: 'manual',
-                url: window.location.href.split('?')[0]+"?r=chat/chat/edit", //history of chat
+                url: '<?= Yii::app()->createUrl("chat/chat/edit"); ?>', //history of chat
                 dataType: 'post',
                 success: function(response, newValue) {
                      // $(this).html(response);
@@ -78,7 +78,7 @@
             {
                 match: /\B@(\w*)$/,
                 search: function (term, callback) {
-                    $.post(window.location.href.split('?')[0]+"?r=chat/chat/users",function(data) { // get all user name to @mention list
+                    $.post('<?= Yii::app()->createUrl("chat/chat/users"); ?>',function(data) { // get all user name to @mention list
                         var menu = $.parseJSON('[' + data + ']');
                         callback(menu[0]);
                     });
@@ -104,18 +104,18 @@
                 var count = $(".mes").length;
                 $.ajax({
                     type: 'POST',
-                    url: window.location.href.split('?')[0]+"?r=chat/chat/history", //history of chat
+                    url: '<?= Yii::app()->createUrl("chat/chat/history"); ?>', //history of chat
                     data: {'count':count},
                     success: function(data) {
                         $(".part-message").before(data);
-                        
+
                         $('.message-edit').editable({
                             placement: 'right',
                             mode: 'inline',
                             type: 'textarea',
                             rows: '1',
                             toggle: 'manual',
-                            url: window.location.href.split('?')[0]+"?r=chat/chat/edit", //history of chat
+                            url: '<?= Yii::app()->createUrl("chat/chat/edit"); ?>', //history of chat
                             dataType: 'post',
                             success: function(response, newValue) {
                                 // $(this).html(345);
@@ -136,7 +136,7 @@
             type: 'textarea',
             rows: '1',
             toggle: 'manual',
-            url: window.location.href.split('?')[0]+"?r=chat/chat/edit", // Edit message
+            url: '<?= Yii::app()->createUrl("chat/chat/edit"); ?>', // Edit message
             dataType: 'post',
             success: function(response, newValue) {
                 // $(this).html(123);

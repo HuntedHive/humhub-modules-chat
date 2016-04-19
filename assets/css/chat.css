@@ -168,3 +168,14 @@ HumHub Chat Module Style CSS
 .message-default img {
     width: 30px;
 }
+
+.chat-message{
+	padding-left:60px;
+}
+
+.chat-message .profile-img-navbar{
+	margin-top: -80px;
+	z-index: 100;
+	position: relative;
+	float: left;
+}
