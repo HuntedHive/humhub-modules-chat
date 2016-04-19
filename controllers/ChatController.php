@@ -110,11 +110,14 @@ class ChatController extends Controller
         foreach ($messages as $message) {
                 $profile = Profile::model()->find('user_id='. $message['user_id']);
                 $user_name = $profile->firstname . " " . $profile->lastname;
-                $span = ($message['user_id'] == Yii::app()->user->id)?"<span data-pk='$message[id]' class='message-edit editable-click'>:msg</span>" . "<i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i>":"<span data-pk='$message[id]' class='message-default'>:msg</span>";
+                $span = ($message['user_id'] == Yii::app()->user->id)?"<span data-pk='$message[id]' class='message-edit editable-click'>:msg</span>" . "<div class='pull-right edit-mes'><i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i></div> <span class='mes-time pull-right'>Apr 18 22:24</span>":"<span data-pk='$message[id]' class='message-default'>:msg</span>";
                 $tmp = $this->toLink($message['text']);
                 $tmp = $this->toSmile($tmp);
                 $tmp = $this->getMentions($tmp);
-                $respond = "<div class='mes'>".$user_name.": ".str_replace(":msg", $tmp, $span) . "</div>";
+                $respond = "<div class='mes'><div class='profile-size-sm profile-img-navbar'>
+                    <img id='user-account-image profile-size-sm' class='img-rounded' src='http://wp.dev/teachconnect/humhub/img/default_user.jpg?cacheId=0' alt='32x32' data-src='holder.js/32x32' height='32' width='32'>
+                    <div class='profile-overlay-img profile-overlay-img-sm'></div>
+                </div>".$user_name.": ".str_replace(":msg", $tmp, $span) . "</div>";
                 $msg.=$respond;
         }
         $msg.= '</div>';
