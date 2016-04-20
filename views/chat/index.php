@@ -199,7 +199,7 @@
         <div class="form-group">
             <textarea class="form-control input_text" rows="3" placeholder="Click here to type a chat message." style="padding-left:60px;"></textarea>
                 <div class="profile-size-sm profile-img-navbar" style="margin-top: -80px;z-index: 100;position: relative;float: left;">
-                    <img id="user-account-image profile-size-sm" class="img-rounded" src="http://wp.dev/teachconnect/humhub/img/default_user.jpg?cacheId=0" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
+                    <img id="user-account-image profile-size-sm" class="img-rounded" src="<?= User::model()->findByPk(Yii::app()->user->id)->getProfileImage()->getUrl(); ?>" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
                     <div class="profile-overlay-img profile-overlay-img-sm"></div>
                 </div>
             <span class="block-smile">
@@ -272,6 +272,8 @@
 
         // check and set panel state from cookie
         checkPanelMenuCookie('getting-started-panel');
+
+        $(".sender").remove();
     });
 
 
@@ -291,175 +293,11 @@
     </div>
 </div>
 
-<div class="panel panel-default panel-activities">
-    <div class="sticky-chat text-center">
-            <h3 class="margin-none"><i class="fa fa-commenting-o"></i> go to live chat</h3>
-            <small>five messages in the last ten minutes</small>
-    </div>
-
-    <div class="panel-heading"><strong>Latest</strong> activities</div>
-    <div id="activityStream">
-
-        <div id="activityEmpty" style="display:none">
-            <div class="placeholder">There are no activities yet.</div>
-        </div>
-        <ul tabindex="5002" style="overflow: hidden;" id="activityContents" class="media-list activities">
-
-
-
-
-
-<li class="activity-entry">
-            <div class="media">
-
-                            <!-- Show user image -->
-                <span class="pull-left profile-size-sm">
-                	<img class="media-object profile-size-sm img-rounded" data-src="holder.js/32x32" alt="32x32" src="http://wp.dev/teachconnect/humhub/img/default_user.jpg?cacheId=0">
-                 	<div class="profile-overlay-img profile-overlay-img-sm"></div>
-                 </span>
-
-            <!-- Show space image, if you are outside from a space -->
-
-            <div class="media-body">
-
-                <!-- Show content -->
-
-<strong>bec t</strong> now follows <strong>testfirst testlast</strong>.
-<br>
-
-                <!-- show time -->
-                <span class="time" title="2015-09-03T15:31:34+02:00">8 months ago</span>            </div>
-        </div>
-        </li>
-
-
-
-
-<li style="display: none;" id="activityLoader">
-                <div class="loader">
-                    <div class="sk-spinner sk-spinner-three-bounce">
-                        <div class="sk-bounce1"></div>
-                        <div class="sk-bounce2"></div>
-                        <div class="sk-bounce3"></div>
-                    </div>
-                </div>
-            </li>
-
-            <li class="activity-entry">
-                <div class="media">
-                    <!-- Show user image -->
-                    <span class="pull-left profile-size-sm">
-                        <img class="media-object profile-size-sm img-rounded" data-src="holder.js/32x32" alt="32x32" src="http://wp.dev/teachconnect/humhub/img/default_user.jpg?cacheId=0">
-                        <div class="profile-overlay-img profile-overlay-img-sm"></div>
-                     </span>
-
-                     <!-- Show space image, if you are outside from a space -->
-                    <div class="media-body">
-                        <!-- Show content -->
-                        <strong><i class="fa fa-users"></i> bec t</strong> now follows <strong>firstname lastname</strong>.<br>
-
-                        <!-- show time -->
-                        <span title="1 min ago" class="time">1 min ago</span>
-                    </div>
-                </div>
-            </li>
-
-            <li class="activity-entry">
-                <div class="media">
-                    <!-- Show user image -->
-                    <span class="pull-left profile-size-sm">
-                        <img class="media-object profile-size-sm img-rounded" data-src="holder.js/32x32" alt="32x32" src="http://wp.dev/teachconnect/humhub/img/default_user.jpg?cacheId=0">
-                        <div class="profile-overlay-img profile-overlay-img-sm"></div>
-                     </span>
-
-                     <!-- Show space image, if you are outside from a space -->
-                    <div class="media-body">
-                        <!-- Show content -->
-                        <strong><i class="fa fa-stack-exchange"></i> bec t</strong> asked <strong>"When should my registration be finalised?"</strong>.<br>
-
-                        <!-- show time -->
-                        <span title="2 mins ago" class="time">2 mins ago</span>
-                    </div>
-                </div>
-            </li>
-
-            <li class="activity-entry">
-                <div class="media">
-                    <!-- Show user image -->
-                    <span class="pull-left profile-size-sm">
-                        <img class="media-object profile-size-sm img-rounded" data-src="holder.js/32x32" alt="32x32" src="http://wp.dev/teachconnect/humhub/img/default_user.jpg?cacheId=0">
-                        <div class="profile-overlay-img profile-overlay-img-sm"></div>
-                     </span>
-
-                     <!-- Show space image, if you are outside from a space -->
-                    <div class="media-body">
-                        <!-- Show content -->
-                        <strong><i class="fa fa-stack-exchange color-qanda"></i> bec t</strong> answered <strong>"When should my registration be finalised?"</strong>.<br>
-
-                        <!-- show time -->
-                        <span title="1 min ago" class="time">1 min ago</span>
-                    </div>
-                </div>
-            </li>
-            <li class="activity-entry">
-                <div class="media">
-                    <!-- Show user image -->
-                    <span class="pull-left profile-size-sm">
-                        <img class="media-object profile-size-sm img-rounded" data-src="holder.js/32x32" alt="32x32" src="http://wp.dev/teachconnect/humhub/img/default_user.jpg?cacheId=0">
-                        <div class="profile-overlay-img profile-overlay-img-sm"></div>
-                     </span>
-
-                     <!-- Show space image, if you are outside from a space -->
-                    <div class="media-body">
-                        <!-- Show content -->
-                        <strong><i class="fa fa-dot-circle-o color-circle-welcome"></i> bec t</strong> posted in <strong>welcome space</strong> "Welcome to the TeachConnect Welcome Space, Nick!".<br>
-
-                        <!-- show time -->
-                        <span title="1 min ago" class="time">1 min ago</span>
-                    </div>
-                </div>
-            </li>
-             <li class="activity-entry">
-                <div class="media">
-                    <!-- Show user image -->
-                    <span class="pull-left profile-size-sm">
-                        <img class="media-object profile-size-sm img-rounded" data-src="holder.js/32x32" alt="32x32" src="http://wp.dev/teachconnect/humhub/img/default_user.jpg?cacheId=0">
-                        <div class="profile-overlay-img profile-overlay-img-sm"></div>
-                     </span>
-
-                     <!-- Show space image, if you are outside from a space -->
-                    <div class="media-body">
-                        <!-- Show content -->
-                        <strong><i class="fa fa-dot-circle-o color-circle-mentorship"></i> bec t</strong> posted in <strong>mentorhsip circle</strong> "Welcome to the TeachConnect Mentorship Circle, Nick!".<br>
-
-                        <!-- show time -->
-                        <span title="1 min ago" class="time">1 min ago</span>
-                    </div>
-                </div>
-            </li>
-            <li class="activity-entry">
-                <div class="media">
-                    <!-- Show user image -->
-                    <span class="pull-left profile-size-sm">
-                        <img class="media-object profile-size-sm img-rounded" data-src="holder.js/32x32" alt="32x32" src="http://wp.dev/teachconnect/humhub/img/default_user.jpg?cacheId=0">
-                        <div class="profile-overlay-img profile-overlay-img-sm"></div>
-                     </span>
-
-                     <!-- Show space image, if you are outside from a space -->
-                    <div class="media-body">
-                        <!-- Show content -->
-                        <strong><i class="fa fa-commenting-o"></i> bec t</strong> posted in <strong>live chat</strong> "hi guys, how are you going?".<br>
-
-                        <!-- show time -->
-                        <span title="1 min ago" class="time">1 min ago</span>
-                    </div>
-                </div>
-            </li>
-
-        </ul>
-
-    </div>
-</div>
+            <?php
+            $this->widget('application.modules_core.activity.widgets.ActivityStreamWidget', array(
+                'streamAction' => '//dashboard/dashboard/stream',
+            ));
+            ?>
 
 <script type="text/javascript">
 
