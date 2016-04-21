@@ -55,4 +55,14 @@ class WBSChatSmile extends HActiveRecord
 //            'symbol' => 'Symbol',
         );
     }
+
+    public static function toSmile($data)
+    {
+        $smiles = self::model()->findAll();
+        foreach ($smiles as $smile) {
+            $data = preg_replace('/'. quotemeta($smile->symbol) .'/', "<img style='width:22px' src='$smile->link'>", $data);
+        }
+
+        return $data;
+    }
 }
