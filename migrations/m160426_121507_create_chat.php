@@ -32,8 +32,9 @@ class m160426_121507_create_chat extends EDbMigration
 
 	public function down()
 	{
-		echo "m160426_121507_create_chat does not support migration down.\n";
-		return false;
+		$this->dropColumn("user", "is_chating");
+		$this->dropTable("wbs_chat");
+		$this->dropTable("wbs_smiles");
 	}
 
 	/*
