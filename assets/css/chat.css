@@ -27,19 +27,6 @@ HumHub Chat Module Style CSS
   vertical-align: middle;
 }
 
-/* Colors for site areas */
-.color-qanda{
-	color:#fdc015 !important;
-}
-
-.color-circle-welcome{
-	color:#f36229 !important;
-}
-
-.color-circle-mentorship{
-	color:#158694 !important;
-}
-
 /* Main Chat Window */
 #messages {
 	height:400px;
