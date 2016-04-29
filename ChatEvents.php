@@ -37,7 +37,7 @@ class ChatEvents
         $event->sender->addItem(array(
             'label' => Yii::t('AdminModule.widgets_AdminMenuWidget', 'Chat Module'),
             'url' => Yii::app()->createUrl('chat/chatAdmin/index'),
-            'icon' => '<i class="fa fa-user"></i>',
+            'icon' => '<i class="fa fa-commenting-o"></i>',
             'sortOrder' => 700,
             'group' => 'manage',
             'newItemCount' => 0,

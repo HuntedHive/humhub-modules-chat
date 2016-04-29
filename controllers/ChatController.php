@@ -115,7 +115,7 @@ class ChatController extends Controller
                     $user_name = 'user_'. $message['user_id'];
                 }
 
-                $span = ($message['user_id'] == Yii::app()->user->id)?"<span data-pk='$message[id]' class='message-edit editable-click'>:msg</span>" . "<div class='pull-right edit-mes'><i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i></div> <span class='mes-time pull-right'>". date("F j, Y, g:i a", strtotime($message['created_at']))  . "</span>":"<span data-pk='$message[id]' class='message-default'><span class='mes-time pull-right'>". date("F j, Y, g:i a", strtotime($message['created_at']))  . "</span>:msg</span>";
+                $span = ($message['user_id'] == Yii::app()->user->id)?"<span data-pk='$message[id]' class='message-edit editable-click'>:msg</span>" . " <span class='mes-time pull-right'>". date("F j, Y, g:i a", strtotime($message['created_at']))  . "</span> <div class='pull-right edit-mes'><i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i></div> ":"<div data-pk='$message[id]' class='message-default'><span class='mes-time pull-right'>". date("F j, Y, g:i a", strtotime($message['created_at']))  . "</span>:msg</div>";
                 $tmp = $this->toLink($message['text']);
                 $tmp = $this->toSmile($tmp);
                 $tmp = $this->getMentions($tmp);
@@ -124,7 +124,7 @@ class ChatController extends Controller
                                 <div class='profile-size-sm profile-img-navbar'>
                                     <img id='user-account-image profile-size-sm' class='img-rounded' src='$photoUser' alt='32x32' data-src='holder.js/32x32' height='32' width='32'>
                                     <div class='profile-overlay-img profile-overlay-img-sm'></div>
-                                </div>".$user_name.": ".str_replace(":msg", $tmp, $span) . 
+                                </div>".$user_name.": ".str_replace(":msg", $tmp, $span) .
                             "</div>";
                 $msg.=$respond;
         }
