@@ -286,17 +286,16 @@
 
 </script>
     <div class="panel-heading">
-        <strong>Getting</strong> Started with Chat</div>
+        <strong>Welcome</strong> to the TeachConnect live chat room.</div>
     <div class="panel-body">
-        <p>
-            Get to know your way around the TeachConnect Chat Module</p>
-
-
-        <ul class="tour-list">
-            <li>Item 1</li>
-            <li>Item 2</li>
-            <li>Item 3</li>
+        <ul>
+            <li>What's been on your mind lately?</li>
+            <li>What's been going on in your classroom?</li>
         </ul>
+        <p>Just type your message and press <strong>[enter]</strong> to join the chat.</p>
+
+        <p>We will be hosting live events here every Wednesday at 15:30 - come and join us.</p>
+
     </div>
 </div>
 
