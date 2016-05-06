@@ -115,7 +115,19 @@ class ChatController extends Controller
                     $user_name = 'user_'. $message['user_id'];
                 }
 
-                $span = ($message['user_id'] == Yii::app()->user->id)?"<span data-pk='$message[id]' class='message-edit editable-click'>:msg</span>" . "<div class='pull-right edit-mes'><i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i></div> <span class='mes-time pull-right'>". date("F j, Y, g:i a", strtotime($message['created_at']))  . "</span>":"<span data-pk='$message[id]' class='message-default'><span class='mes-time pull-right'>". date("F j, Y, g:i a", strtotime($message['created_at']))  . "</span>:msg</span>";
+                $span = ($message['user_id'] == Yii::app()->user->id)?"
+                                                                        <span data-pk='$message[id]' class='message-edit editable-click'>:msg</span>" .
+                                                                        "<div class='pull-right edit-mes'>
+                                                                            <i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i>
+                                                                        </div> 
+                                                                        <span class='mes-time pull-right'>".
+                                                                            date("F j, Y, g:i a", strtotime($message['created_at']))  .
+                                                                        "</span>"
+                                                                    :
+                                                                        "<span data-pk='$message[id]' class='message-default'>
+                                                                            <span class='mes-time pull-right'>". date("F j, Y, g:i a", strtotime($message['created_at']))  . "</span>
+                                                                            :msg
+                                                                        </span>";
                 $tmp = $this->toLink($message['text']);
                 $tmp = $this->toSmile($tmp);
                 $tmp = $this->getMentions($tmp);

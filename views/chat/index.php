@@ -24,8 +24,7 @@
                 $(".mes > [data-pk='"+pk+"']").html('').removeAttr("style").html(text);
                 
             } else { // Add new message
-                var html = $("#messages").html();
-                $("#messages").html(html + JSON.parse(e.data)+"<br>");
+                $("#messages .part-message .mes:last").after(JSON.parse(e.data));
             }
             
             //after append html add to all messages editable

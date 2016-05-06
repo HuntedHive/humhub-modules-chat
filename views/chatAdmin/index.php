@@ -6,15 +6,13 @@
 $form = $this->beginWidget('HActiveForm',
     array(
         'id' => 'smile-form',
-        'enableAjaxValidation' => true,
-        'enableClientValidation' => true,
-        'action' => ['create'],
+//        'enableAjaxValidation' => true,
+//        'enableClientValidation' => true,
+//        'action' => ['create'],
         'focus' => array($model, 'symbol'),
     ));
 
 ?>
-    <?php echo $form->errorSummary($model); ?>
-
 <div class="row">
     
     <?php echo $form->labelEx($model, 'symbol'); ?>
@@ -64,7 +62,7 @@ $this->widget('zii.widgets.grid.CGridView',
                 'value' => function ($data) {
                     echo CHtml::link(WBSChat::$write[$data->is_chating], "#", array("class" => "editable-flag", "data-pk" => $data->id));
                 },
-                'name' => 'is_chating',
+                'name' => 'Banned Status',
         ),
     ),
 ));

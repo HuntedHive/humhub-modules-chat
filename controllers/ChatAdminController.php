@@ -40,6 +40,10 @@ class ChatAdminController extends Controller
         $dataProvider = new CActiveDataProvider('WBSChatSmile');
         $dataProviderUser = new CActiveDataProvider('User');
         $model        = new WBSChatSmile; // error
+        if (isset($_POST['WBSChatSmile'])) {
+            $model->attributes = $_POST['WBSChatSmile'];
+            $model->save();
+        }
         $this->render("index", [
             'dataProvider' => $dataProvider,
             'model' => $model,
@@ -47,22 +51,6 @@ class ChatAdminController extends Controller
         ]);
     }
 
-    public function actionCreate()
-    {
-        $model = new WBSChatSmile;
-        $dataProvider = new CActiveDataProvider('WBSChatSmile');
-        $this->performAjaxValidation($model);
-        if (isset($_POST['WBSChatSmile'])) {
-            
-            $model->attributes = $_POST['WBSChatSmile'];
-            $model->save();
-        }
-        $this->render("index", [
-            'dataProvider' => $dataProvider,
-            'model' => $model,
-        ]);
-    }
-    
     public function actionDelete($id)
     {
         WBSChatSmile::model()->deleteByPk($id);
