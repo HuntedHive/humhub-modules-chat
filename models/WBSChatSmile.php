@@ -28,6 +28,7 @@ class WBSChatSmile extends HActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('symbol', 'unique'),
             array('link, symbol', 'required'),
             array('link', 'length'),
             array('symbol', 'length', 'max' => 50),

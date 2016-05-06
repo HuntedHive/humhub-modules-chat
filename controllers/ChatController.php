@@ -128,6 +128,7 @@ class ChatController extends Controller
                                                                             <span class='mes-time pull-right'>". date("F j, Y, g:i a", strtotime($message['created_at']))  . "</span>
                                                                             :msg
                                                                         </span>";
+
                 $tmp = $this->toLink($message['text']);
                 $tmp = $this->toSmile($tmp);
                 $tmp = $this->getMentions($tmp);
@@ -136,7 +137,7 @@ class ChatController extends Controller
                                 <div class='profile-size-sm profile-img-navbar'>
                                     <img id='user-account-image profile-size-sm' class='img-rounded' src='$photoUser' alt='32x32' data-src='holder.js/32x32' height='32' width='32'>
                                     <div class='profile-overlay-img profile-overlay-img-sm'></div>
-                                </div>".$user_name.": ".str_replace(":msg", $tmp, $span) . 
+                                </div>".$user_name.": ".str_replace(":msg", $tmp, $span) .
                             "</div>";
                 $msg.=$respond;
         }

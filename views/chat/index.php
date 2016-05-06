@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" type="text/css"
          href="<?php echo $this->module->assetsUrl; ?>/css/chat.css"/>
-
+<?php if(WBSChat::isChating(Yii::app()->user->id)) { ?>
 <script>
     $(document).ready(function() {
         
@@ -183,9 +183,10 @@
         wtf.scrollTop(height);
     });
 </script>
+<?php } ?>
 <div class="container">
     <div class="col-xs-12">
-        <h3 class="margin-none padding-bottom-sm">Chat with the TeachConnect Community</h3>
+        <h4 class="margin-none padding-bottom-sm"><strong>Chat with the</strong> TeachConnect Community</h4>
     </div>
     <br>
     <div class="col-md-8">
@@ -195,6 +196,8 @@
                 <?php echo $messages; ?>
             </div>
         </div>
+
+        <?php if(WBSChat::isChating(Yii::app()->user->id)) { ?>
         <div class="form-group">
             <textarea class="form-control input_text" rows="3" placeholder="Click here to type a chat message." style="padding-left:60px;"></textarea>
                 <div class="profile-size-sm profile-img-navbar" style="margin-top: -80px;z-index: 100;position: relative;float: left;">
@@ -209,6 +212,15 @@
                 </div>
             </span>
         </div>
+        <?php }  else { ?>
+        <div class="form-group chat-disabled">
+            <textarea disabled class="form-control input_text" rows="3" placeholder="You do not have access to post messages. Please contact site administration if you wish to be allowed to post." style="padding-left:60px;"></textarea>
+                <div class="profile-size-sm profile-img-navbar" style="margin-top: -80px;z-index: 100;position: relative;float: left;">
+                    <img id="user-account-image profile-size-sm" class="img-rounded" src="<?= User::model()->findByPk(Yii::app()->user->id)->getProfileImage()->getUrl(); ?>" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
+                    <div class="profile-overlay-img profile-overlay-img-sm"></div>
+                </div>
+        </div>
+        <?php } ?>
         <div class="form-group">
             <a class="send-message btn btn-success pull-right" href="#">Send</a>
         </div>
@@ -278,17 +290,16 @@
 
 </script>
     <div class="panel-heading">
-        <strong>Getting</strong> Started with Chat</div>
+        <strong>Welcome</strong> to the TeachConnect live chat room.</div>
     <div class="panel-body">
-        <p>
-            Get to know your way around the TeachConnect Chat Module</p>
-
-
-        <ul class="tour-list">
-            <li>Item 1</li>
-            <li>Item 2</li>
-            <li>Item 3</li>
+        <ul>
+            <li>What's been on your mind lately?</li>
+            <li>What's been going on in your classroom?</li>
         </ul>
+        <p>Just type your message and press <strong>[enter]</strong> to join the chat.</p>
+
+        <p>We will be hosting live events here every Wednesday at 15:30 - come and join us.</p>
+
     </div>
 </div>
 

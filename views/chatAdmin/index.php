@@ -3,6 +3,7 @@
 
 <?php
 
+
 $form = $this->beginWidget('HActiveForm',
     array(
         'id' => 'smile-form',
@@ -13,19 +14,21 @@ $form = $this->beginWidget('HActiveForm',
     ));
 
 ?>
+
+<h3>Emoticons</h3>
+
 <div class="row">
-    
-    <?php echo $form->labelEx($model, 'symbol'); ?>
-    <?php echo $form->textField($model, 'symbol'); ?>
-    <?php echo $form->error($model, 'symbol'); ?>
-</div>
-<div class="row">
-<?php echo $form->labelEx($model, 'link'); ?>
-<?php echo $form->textField($model, 'link'); ?>
-<?php echo $form->error($model, 'link'); ?>
-</div>
-<div class="row submit">
-    <input type='submit' class='btn btn-primary'/>
+    <div class="col-sm-5">
+        <?php echo $form->textField($model, 'symbol', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter symbol *',)); ?>
+        <?php echo $form->error($model, 'symbol'); ?>
+    </div>
+    <div class="col-sm-5">
+        <?php echo $form->textField($model, 'link', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter link *',)); ?>
+        <?php echo $form->error($model, 'link'); ?>
+    </div>
+    <div class="col-sm-2 submit">
+        <input type='submit' class='btn btn-primary btn-sm'/>
+    </div>
 </div>
 <?php $this->endWidget(); ?>
 
@@ -49,7 +52,10 @@ $this->widget('zii.widgets.grid.CGridView',
     ),
 ));
 ?>
-<h3>User ban list</h3>
+
+<br><br><hr><br>
+
+<h3>Banned Users</h3>
 
 <?php
 $this->widget('zii.widgets.grid.CGridView',
@@ -77,7 +83,7 @@ $this->widget('zii.widgets.grid.CGridView',
                 type: 'select',
                 send: 'always',
                 source: JSON.parse(select),
-                url: window.location.href.split('?')[0]+"?r=chat/chatAdmin/ban", //ban action
+                url: "<?php echo \Yii::app()->createUrl('chat/chatAdmin/ban') ?>", //ban action
                 dataType: 'post'
             });
     });

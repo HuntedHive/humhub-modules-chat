@@ -63,4 +63,12 @@ class WBSChat extends HActiveRecordContent
             //'module_id' => 'Module',
         );
     }
+
+    public static function isChating($user_id)
+    {
+        $user = User::model()->findByPk($user_id);
+        if(!empty($user)) {
+            return (bool)$user->is_chating;
+        }
+    }
 }
