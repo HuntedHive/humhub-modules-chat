@@ -27,7 +27,7 @@ $form = $this->beginWidget('HActiveForm',
         <?php echo $form->error($model, 'link'); ?>
     </div>
     <div class="col-sm-2 submit">
-        <input type='submit' class='btn btn-primary btn-sm'/>
+        <input type='submit' class='btn btn-primary btn-sm' value="save"/>
     </div>
 </div>
 <?php $this->endWidget(); ?>
