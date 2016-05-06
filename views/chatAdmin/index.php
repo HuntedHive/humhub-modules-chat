@@ -39,7 +39,7 @@ $this->widget('zii.widgets.grid.CGridView',
     'columns' => array(
         'symbol',
         array(
-            'name' => 'link',
+            'name' => 'Smile Image',
             'type' => 'image',
             'value' => '$data->link',
         ),
