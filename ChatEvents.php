@@ -16,7 +16,7 @@ class ChatEvents
         }
 
         $event->sender->addItem(array(
-            'label' => Yii::t('MailModule.base', 'Chat'),
+            'label' => Yii::t('MailModule.base', 'Live Chat'),
             'url' => Yii::app()->createUrl('/chat/chat/index', array()),
             'icon' => '<i class="fa fa-commenting-o"></i>',
             'isActive' => (Yii::app()->controller->module && Yii::app()->controller->module->id == 'chat' && Yii::app()->controller->id == 'chat'),
