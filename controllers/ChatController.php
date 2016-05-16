@@ -6,6 +6,7 @@
  */
 class ChatController extends Controller
 {
+    private $imageUrl;
     /**
      * @return array action filters
      */
@@ -108,6 +109,7 @@ class ChatController extends Controller
         $tmp = '';
         $msg.= '<div class="part-message">';
         foreach ($messages as $message) {
+                $this->imageUrl = '';
                 $profile = Profile::model()->find('user_id='. $message['user_id']);
                 if(!empty($profile)) {
                     $user_name = $profile->firstname . " " . $profile->lastname;
@@ -139,6 +141,7 @@ class ChatController extends Controller
                                     <div class='profile-overlay-img profile-overlay-img-sm'></div>
                                 </div>".$user_name.": ".str_replace(":msg", $tmp, $span) .
                             "</div>";
+                $respond.= (!empty($this->imageUrl))?"<img src='$this->imageUrl'>":'';
                 $msg.=$respond;
         }
         $msg.= '</div>';
@@ -167,7 +170,39 @@ class ChatController extends Controller
     
     public function toLink($data)
     {
-        return preg_replace('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', " <a target='_blank' style='color:blue;text-decoration:underline;' href='$0'> $0 </a> ", $data);
+        $linkReplace = preg_replace('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', " <a target='_blank' style='color:blue;text-decoration:underline;' href='$0'> $0 </a> ", $data);
+        $this->getImage($linkReplace);
+        return $linkReplace;
+    }
+
+    protected function getImage($data)
+    {
+        require_once dirname(__DIR__) . "/lib/DOM/dom.php";
+        $htmlText = str_get_html($data);
+        $imageText = '';
+        if(!empty($htmlText->find('a', 0))) {
+            preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $htmlText->find('a', 0)->href, $matches);
+            if(!empty($matches)) {
+                $url = $matches[0];
+                $htmlContent = file_get_html($url);
+                $urlHost = parse_url($url)['scheme'] ."://".parse_url($url)['host'] . "";
+                // Find all images
+                preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $htmlContent->find('img', 1)->src, $matchesContent);
+                try {
+                    if (empty($matchesContent)) {
+                        if(@getimagesize($urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src)) {
+                            $this->imageUrl = $urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src;
+                        }
+                    } else {
+                        if(@getimagesize($htmlContent->find('img', 1)->src)) {
+                            $this->imageUrl = $htmlContent->find('img', 1)->src;
+                        }
+                    }
+                }catch (\Exception $e) {
+                    //
+                }
+            }
+        }
     }
     
     protected function getIcons($icons)
