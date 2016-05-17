@@ -131,17 +131,18 @@ class ChatController extends Controller
                                                                             :msg
                                                                         </span>";
 
+
                 $tmp = $this->toLink($message['text']);
                 $tmp = $this->toSmile($tmp);
                 $tmp = $this->getMentions($tmp);
                 $photoUser = file_exists(Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "profile_image" . DIRECTORY_SEPARATOR . User::model()->findByPk($message['user_id'])->guid. ".jpg")?Yii::app()->request->getBaseUrl("/") . "/uploads/profile_image/" . User::model()->findByPk($message['user_id'])->guid. ".jpg":Yii::app()->request->getBaseUrl("/") ."/img/default_user.jpg?cacheId=0";
+                $span .= (!empty($this->imageUrl))?"<a target='_blank' href='$this->imageUrl'><img src='$this->imageUrl'></a>":'';
                 $respond = "<div class='mes'>
                                 <div class='profile-size-sm profile-img-navbar'>
                                     <img id='user-account-image profile-size-sm' class='img-rounded' src='$photoUser' alt='32x32' data-src='holder.js/32x32' height='32' width='32'>
                                     <div class='profile-overlay-img profile-overlay-img-sm'></div>
                                 </div>".$user_name.": ".str_replace(":msg", $tmp, $span) .
                             "</div>";
-                $respond.= (!empty($this->imageUrl))?"<img src='$this->imageUrl'>":'';
                 $msg.=$respond;
         }
         $msg.= '</div>';
@@ -183,28 +184,44 @@ class ChatController extends Controller
         if(!empty($htmlText->find('a', 0))) {
             preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $htmlText->find('a', 0)->href, $matches);
             if(!empty($matches)) {
+                if($this->ifImage($matches[0])) {
+                    $this->imageUrl = $matches[0];
+                    return;
+                }
                 $url = $matches[0];
                 $htmlContent = file_get_html($url);
                 $urlHost = parse_url($url)['scheme'] ."://".parse_url($url)['host'] . "";
                 // Find all images
-                preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $htmlContent->find('img', 1)->src, $matchesContent);
-                try {
-                    if (empty($matchesContent)) {
-                        if(@getimagesize($urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src)) {
-                            $this->imageUrl = $urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src;
+                if(isset($htmlContent->find('img', 1)->src)) {
+                    preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $htmlContent->find('img', 1)->src, $matchesContent);
+                    try {
+                        if (empty($matchesContent)) {
+                            if (@getimagesize($urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src)) {
+                                $this->imageUrl = $urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src;
+                            }
+                        } else {
+                            if (@getimagesize($htmlContent->find('img', 1)->src)) {
+                                $this->imageUrl = $htmlContent->find('img', 1)->src;
+                            }
                         }
-                    } else {
-                        if(@getimagesize($htmlContent->find('img', 1)->src)) {
-                            $this->imageUrl = $htmlContent->find('img', 1)->src;
-                        }
+                    } catch (\Exception $e) {
+                        //
                     }
-                }catch (\Exception $e) {
-                    //
                 }
             }
         }
     }
-    
+
+    protected function ifImage($string)
+    {
+        preg_match('/(http|https|ftp|ftps)\:\/\/([\w\W]*).(png|jpg|gif|jpeg)/', $string, $matches);
+        if(!empty($matches[0])){
+            return true;
+        }
+
+        return false;
+    }
+
     protected function getIcons($icons)
     {
         $img = '';
