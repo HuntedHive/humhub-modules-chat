@@ -16,7 +16,8 @@ $form = $this->beginWidget('HActiveForm',
 ?>
 
 <h3>Emoticons</h3>
-
+<p class="help-block">Note: This functionality is responsible for adding new emotions wich display on Live Chat</p>
+<p class="help-block">Example: Symbol: =D AND Link: https://sc.mogicons.com/l/cute-emoticon-with-half-smile-374.png</p>
 <div class="row">
     <div class="col-sm-5">
         <?php echo $form->textField($model, 'symbol', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter symbol *',)); ?>
@@ -77,7 +78,7 @@ $this->widget('zii.widgets.grid.CGridView',
 <script>
     $(document).ready(function(){
         var select = '<?= json_encode(WBSChat::$write) ?>';
-    
+
             $('.editable-flag').editable({
                 mode: 'inline',
                 type: 'select',

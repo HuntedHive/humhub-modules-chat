@@ -7,8 +7,8 @@ class WBSChat extends HActiveRecordContent
     const DISABLE_WRITE = 0;
     
     public static $write = [
-        self::ABLE_WRITE => '<i class="fa fa-check-circle"></i> not banned',
-        self::DISABLE_WRITE => '<i class="fa fa-ban"></i> is banned',
+        self::ABLE_WRITE => 'not banned',
+        self::DISABLE_WRITE => 'is banned',
     ];
     
     /**
