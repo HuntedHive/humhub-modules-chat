@@ -3,6 +3,10 @@ HumHub Chat Module Style CSS
 */
 
 /* Chat Notification Sidebar */
+.no-padding{
+    padding:0px;
+}
+
 .sticky-chat {
     background: #1895a4;
     color: white;
@@ -11,6 +15,32 @@ HumHub Chat Module Style CSS
     border-radius: 10px;
     margin: 0 auto;
     cursor: pointer;
+}
+
+.form-group-send{
+    height:50px;
+}
+
+.mes img.mes-attachment{
+    padding-left: 40px;
+    margin-top: 5px;
+}
+
+.mes-body{
+    padding-left:40px;
+    margin-top:-10px;
+}
+
+.mes-body .editable-container.editable-inline, .mes-body .editable-input{
+    width:100% !important;
+}
+
+.mes-body .editable-container.editable-inline .control-group{
+    width:80% !important;
+}
+
+.mes-time-other{
+    margin-right:40px;
 }
 
 .panel-activities {
@@ -135,7 +165,7 @@ HumHub Chat Module Style CSS
 
 .mes .edit-mes {
     width: 30px;
-    height: 30px;
+    height: 10px;
     margin-right:10px;
 }
 
@@ -192,4 +222,14 @@ HumHub Chat Module Style CSS
 }
 .chat-disabled :-ms-input-placeholder { /* Internet Explorer 10-11 */
    color:   #009ee7 !important;
+}
+
+@media (max-width: 767px) {
+    .mes-time {
+        float: left !important;
+    }
+
+    .mes-body{
+        margin-top:0px;
+    }
 }

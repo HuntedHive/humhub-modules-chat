@@ -199,11 +199,12 @@
 
         <?php if(WBSChat::isChating(Yii::app()->user->id)) { ?>
         <div class="form-group">
+            <div class="profile-size-sm profile-img-navbar" style="margin-top: 10px;z-index: 100;position: absolute;float: left;">
+                <img id="user-account-image profile-size-sm" class="img-rounded" src="<?= User::model()->findByPk(Yii::app()->user->id)->getProfileImage()->getUrl(); ?>" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
+                <div class="profile-overlay-img profile-overlay-img-sm"></div>
+            </div>
             <textarea class="form-control input_text" rows="3" placeholder="Click here to type a chat message." style="padding-left:60px;"></textarea>
-                <div class="profile-size-sm profile-img-navbar" style="margin-top: -80px;z-index: 100;position: relative;float: left;">
-                    <img id="user-account-image profile-size-sm" class="img-rounded" src="<?= User::model()->findByPk(Yii::app()->user->id)->getProfileImage()->getUrl(); ?>" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
-                    <div class="profile-overlay-img profile-overlay-img-sm"></div>
-                </div>
+
             <span class="block-smile">
                 <img src='http://vignette2.wikia.nocookie.net/olympians/images/2/26/Smile.png/revision/latest?cb=20110611224157'/>
                 <div class="popover fade icons top in" role="tooltip" id="popover353330">
@@ -221,7 +222,7 @@
                 </div>
         </div>
         <?php } ?>
-        <div class="form-group">
+        <div class="form-group form-group-send">
             <a class="send-message btn btn-success pull-right" href="#">Send</a>
         </div>
     </div>
