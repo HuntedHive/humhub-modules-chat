@@ -227,7 +227,7 @@
         </div>
         <?php } ?>
         <div class="form-group">
-            <a class="send-message btn btn-success pull-right" href="">Send</a>
+            <a class="send-message btn btn-success pull-right" onClick="return false" href="">Send</a>
         </div>
     </div>
     <div class="col-md-4">
