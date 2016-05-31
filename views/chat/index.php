@@ -24,7 +24,8 @@
                 $(".mes > [data-pk='"+pk+"']").html('').removeAttr("style").html(text);
                 
             } else { // Add new message
-                $("#messages .part-message .mes:last").after(JSON.parse(e.data));
+                $("#messages .part-message:first .mes:last").after(JSON.parse(e.data));
+                $("#messages").animate({ scrollTop: $("#messages .part-message").height() }, 2500);
             }
             
             //after append html add to all messages editable
@@ -178,9 +179,12 @@
         }
         
         // On load page scroll chat to bottom
-        var wtf    = $('#messages');
-        var height = wtf[0].scrollHeight;
-        wtf.scrollTop(height);
+        $("#messages").animate({ scrollTop: $("#messages .part-message").height() }, 2200);
+//        var wtf    = $('#messages');
+//        var height = wtf[0].scrollHeight;
+//        wtf.scrollTop(height);
+
+
     });
 </script>
 <?php } ?>
@@ -222,7 +226,7 @@
         </div>
         <?php } ?>
         <div class="form-group">
-            <a class="send-message btn btn-success pull-right" href="#">Send</a>
+            <a class="send-message btn btn-success pull-right" href="">Send</a>
         </div>
     </div>
     <div class="col-md-4">
