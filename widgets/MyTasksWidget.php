@@ -8,9 +8,10 @@ class MyTasksWidget extends HWidget {
 	 * Creates the Wall Widget
 	 */
 	public function run() {
-		$this->render('buttonChat');
+		if(Yii::app()->controller->id != "chat") {
+			$this->render('buttonChat');
+		}
 	}
-
 }
 
 ?>
