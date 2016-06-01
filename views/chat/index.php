@@ -226,7 +226,7 @@
                 </div>
         </div>
         <?php } ?>
-        <div class="form-group">
+        <div class="form-group form-group-send">
             <a class="send-message btn btn-success pull-right" onClick="return false" href="">Send</a>
         </div>
     </div>
