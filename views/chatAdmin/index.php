@@ -16,19 +16,25 @@ $form = $this->beginWidget('HActiveForm',
 ?>
 
 <h3>Emoticons</h3>
-<p class="help-block">Note: This functionality is responsible for adding new emotions wich display on Live Chat</p>
-<p class="help-block">Example: Symbol: =D AND Link: https://sc.mogicons.com/l/cute-emoticon-with-half-smile-374.png</p>
+<p class="help-block"><strong>Note:</strong> This functionality is responsible for adding new emoticons which display on Live Chat</p>
+<p class="help-block"><strong>Example:</strong> Symbol: =D AND Link: https://sc.mogicons.com/l/cute-emoticon-with-half-smile-374.png</p>
 <div class="row">
     <div class="col-sm-5">
-        <?php echo $form->textField($model, 'symbol', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter symbol *',)); ?>
-        <?php echo $form->error($model, 'symbol'); ?>
+        <div class="form-group">
+            <?php echo $form->textField($model, 'symbol', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter symbol *',)); ?>
+            <?php echo $form->error($model, 'symbol'); ?>
+            <div class="clearfix"></div>
+        </div>
     </div>
     <div class="col-sm-5">
-        <?php echo $form->textField($model, 'link', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter link *',)); ?>
-        <?php echo $form->error($model, 'link'); ?>
+        <div class="form-group">
+            <?php echo $form->textField($model, 'link', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter link *',)); ?>
+            <?php echo $form->error($model, 'link'); ?>
+            <div class="clearfix"></div>
+        </div>
     </div>
     <div class="col-sm-2 submit">
-        <input type='submit' class='btn btn-primary btn-sm' value="save"/>
+        <input type='submit' class='btn btn-primary btn-sm' value="Save"/>
     </div>
 </div>
 <?php $this->endWidget(); ?>
@@ -74,6 +80,8 @@ $this->widget('zii.widgets.grid.CGridView',
     ),
 ));
 ?>
+
+<br><br><hr><br>
 
 <script>
     $(document).ready(function(){
