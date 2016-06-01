@@ -7,6 +7,7 @@
 class ChatController extends Controller
 {
     private $imageUrl;
+    private $imageHost;
     /**
      * @return array action filters
      */
@@ -139,7 +140,7 @@ class ChatController extends Controller
                 $tmp = $this->toSmile($tmp);
                 $tmp = $this->getMentions($tmp);
                 $photoUser = file_exists(Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "profile_image" . DIRECTORY_SEPARATOR . User::model()->findByPk($message['user_id'])->guid. ".jpg")?Yii::app()->request->getBaseUrl("/") . "/uploads/profile_image/" . User::model()->findByPk($message['user_id'])->guid. ".jpg":Yii::app()->request->getBaseUrl("/") ."/img/default_user.jpg?cacheId=0";
-                $span .= (!empty($this->imageUrl))?"<a target='_blank' href='$this->imageUrl'><img class='img-responsive mes-attachment' width=300 src='$this->imageUrl'></a>":'';
+                $span .= (!empty($this->imageUrl))?"<a target='_blank' href='$this->imageHost'><img class='img-responsive mes-attachment' width=300 src='$this->imageUrl'></a>":'';
                 $respond = "<div class='mes'>
                                 <div class='profile-size-sm profile-img-navbar'>
                                     <img id='user-account-image profile-size-sm' class='img-rounded' src='$photoUser' alt='32x32' data-src='holder.js/32x32' height='32' width='32'>
@@ -201,10 +202,12 @@ class ChatController extends Controller
                     try {
                         if (empty($matchesContent)) {
                             if (@getimagesize($urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src)) {
+                                $this->imageHost = $urlHost;
                                 $this->imageUrl = $urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src;
                             }
                         } else {
                             if (@getimagesize($htmlContent->find('img', 1)->src)) {
+                                $this->imageHost = $htmlContent->find('img', 1)->src;
                                 $this->imageUrl = $htmlContent->find('img', 1)->src;
                             }
                         }
