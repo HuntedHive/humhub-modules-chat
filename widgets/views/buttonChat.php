@@ -1,8 +1,9 @@
 <script>
     $(document).ready(function() {
         var sender = $(".sender").clone();
-        $(".panel-activities .panel-heading").before(sender);
-        $(".sender:first").remove();
+        $(".sender").remove();
+        $(".panel-activities .panel-heading:first").before(sender);
+        console.log(1234);
     });
 </script>
 

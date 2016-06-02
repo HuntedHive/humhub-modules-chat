@@ -51,8 +51,7 @@ class ChatEvents
         if (Yii::app()->user->isGuest) {
             return;
         }
-
-        $event->sender->addWidget('application.modules.chat.widgets.MyTasksWidget', array(), array('sortOrder' => 1));
+        //$event->sender->addWidget('application.modules.chat.widgets.MyTasksWidget', array(), array('sortOrder' => 1));
     }
 
 }
