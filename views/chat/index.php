@@ -314,6 +314,8 @@
             ));
             ?>
 
+            <?php $this->widget('application.modules.questionanswer.widgets.KnowledgeTour'); ?>
+
 <script type="text/javascript">
 
     // set niceScroll to activity list

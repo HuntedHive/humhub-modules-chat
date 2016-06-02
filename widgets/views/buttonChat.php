@@ -3,7 +3,6 @@
         var sender = $(".sender").clone();
         $(".sender").remove();
         $(".panel-activities .panel-heading:first").before(sender);
-        console.log(1234);
     });
 </script>
 
