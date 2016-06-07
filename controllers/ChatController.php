@@ -201,15 +201,15 @@ class ChatController extends Controller
                     preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $htmlContent->find('img', 1)->src, $matchesContent);
                     try {
                         if (empty($matchesContent)) {
-                            if (@getimagesize($urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src)) {
+//                            if (@getimagesize($urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src)) {
                                 $this->imageHost = $urlHost;
                                 $this->imageUrl = $urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src;
-                            }
+//                            }
                         } else {
-                            if (@getimagesize($htmlContent->find('img', 1)->src)) {
+//                            if (@getimagesize($htmlContent->find('img', 1)->src)) {
                                 $this->imageHost = $htmlContent->find('img', 1)->src;
                                 $this->imageUrl = $htmlContent->find('img', 1)->src;
-                            }
+//                            }
                         }
                     } catch (\Exception $e) {
                         //

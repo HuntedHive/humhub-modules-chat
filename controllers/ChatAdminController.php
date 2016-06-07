@@ -43,6 +43,7 @@ class ChatAdminController extends Controller
         if (isset($_POST['WBSChatSmile'])) {
             $model->attributes = $_POST['WBSChatSmile'];
             $model->save();
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
         $this->render("index", [
             'dataProvider' => $dataProvider,

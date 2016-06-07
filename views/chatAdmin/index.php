@@ -55,6 +55,15 @@ $this->widget('zii.widgets.grid.CGridView',
         array(
             'class' => 'CButtonColumn',
             'template' => '{delete}',
+            'buttons' => [
+                'delete' => array
+                (
+                    'label'=>'<i class="fa fa-times"></i>',
+                    'imageUrl'=>false,
+                    'options'=>array('class'=>'btn btn-danger btn-xs tt', 'title' => 'delete'),
+                    'url'=>'Yii::app()->createUrl("users/email", array("id"=>$data->id))',
+                ),
+            ]
         ),
     ),
 ));
