@@ -3,6 +3,9 @@
         var sender = $(".sender").clone();
         $(".sender").remove();
         $(".panel-activities .panel-heading:first").before(sender);
+        setTimeout(function() {
+            sender.removeClass("hidden");
+        }, 500);
     });
 </script>
 
@@ -28,7 +31,7 @@
     }
 </style>
 
-<a class="sender" href="<?= Yii::app()->createUrl("/chat/chat/index"); ?>">
+<a class="sender hidden" href="<?= Yii::app()->createUrl("/chat/chat/index"); ?>">
     <div class="sticky-chat text-center">
         <h3 class="margin-none"><i class="fa fa-commenting-o"></i> go to live chat</h3>
         <small>five messages in the last ten minutes</small>
