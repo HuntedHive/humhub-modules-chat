@@ -17,12 +17,17 @@
         
         // On server answer
         conn.onmessage = function(e) {
-            //Edit
-            if(typeof JSON.parse(e.data) == "object") {
+            if(typeof JSON.parse(e.data) == "object") { //Edit message
                 var pk = JSON.parse(e.data)[0];
                 var text = JSON.parse(e.data)[1];
-                $(".mes > [data-pk='"+pk+"']").html('').removeAttr("style").html(text);
-                
+                var htmlTag = $(".mes [data-pk='"+pk+"']");
+
+                if(htmlTag.find(".mes-body").length) {
+                    htmlTag.removeAttr('style').find(".mes-body").html(text)
+                } else {
+                    htmlTag.removeAttr('style').html(text)
+                }
+
             } else { // Add new message
                 $("#messages .part-message:first .mes:last").after(JSON.parse(e.data));
                 $("#messages").animate({ scrollTop: $("#messages .part-message").height() }, 2500);
@@ -139,7 +144,7 @@
             url: '<?= Yii::app()->createUrl("chat/chat/edit"); ?>', // Edit message
             dataType: 'post',
             success: function(response, newValue) {
-                // $(this).html(123);
+                // $(this).html();
             },
              display: function(value) {
                 // none
