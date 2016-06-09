@@ -33,7 +33,6 @@
                 htmlTag.parents(".mes").find(".img-responsive").remove(); // remove image in another user
 
                 if(flagImage) {
-                    console.log(image);
                     htmlTag.parents(".mes").append(image);
                 }
 
