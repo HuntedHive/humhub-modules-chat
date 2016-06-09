@@ -61,7 +61,7 @@ $this->widget('zii.widgets.grid.CGridView',
                     'label'=>'<i class="fa fa-times"></i>',
                     'imageUrl'=>false,
                     'options'=>array('class'=>'btn btn-danger btn-xs tt', 'title' => 'delete'),
-                    'url'=>'Yii::app()->createUrl("users/email", array("id"=>$data->id))',
+                    'url'=>'Yii::app()->createUrl("/chat/chatAdmin/delete", array("id"=>$data->id))',
                 ),
             ]
         ),
