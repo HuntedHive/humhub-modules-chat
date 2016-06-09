@@ -20,12 +20,21 @@
             if(typeof JSON.parse(e.data) == "object") { //Edit message
                 var pk = JSON.parse(e.data)[0];
                 var text = JSON.parse(e.data)[1];
+                var image = JSON.parse(e.data)[2];
+                var flagImage = JSON.parse(e.data)[3];
                 var htmlTag = $(".mes [data-pk='"+pk+"']");
 
                 if(htmlTag.find(".mes-body").length) {
                     htmlTag.removeAttr('style').find(".mes-body").html(text)
                 } else {
-                    htmlTag.removeAttr('style').html(text)
+                    htmlTag.removeAttr('style').html(text);
+                }
+
+                htmlTag.parents(".mes").find(".img-responsive").remove(); // remove image in another user
+
+                if(flagImage) {
+                    console.log(image);
+                    htmlTag.parents(".mes").append(image);
                 }
 
             } else { // Add new message
@@ -152,15 +161,21 @@
         });
         
         // Rewrite method on editin field inline
+        var span;
+        var image;
         $(document).on("click",".edit-icon", function(e) {
             e.stopPropagation();
             $(".editableform-loading").remove();
-            var span = $(this).parents(".mes").find(".message-edit");
+            span = $(this).parents(".mes").find(".message-edit");
             var text = validateText(span.html());
             span.editable('toggle');
             $('.editable-input textarea').val(text);
+
+            image = $(this).parents(".mes").find(".img-responsive");
+            image.toggleClass("hidden");
         });
-        
+
+
         // Send to server edit text with (pk) and (text)
         $(document).on("click",".editable-submit", function() {
             var text = $(this).parents(".editableform").find(".editable-input textarea").val();
@@ -169,11 +184,20 @@
             items[0] = pk;
             items[1] = text;
             var result = JSON.stringify(items);
+            if(image) {
+                image.parent("a").remove();
+            }
             conn.send(result);
-            $(".editable-container").hide();
+
             return true;
         });
-        
+
+        $(document).on("click",".editable-cancel", function() {
+            if(image.length) {
+                image.toggleClass("hidden");
+            }
+        });
+
         // Unvalid messages
         function validateText(text)
         {
