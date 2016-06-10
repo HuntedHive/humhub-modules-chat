@@ -362,6 +362,8 @@
 
 </script>
 
+<div class="attribution-link">Emoji art supplied by <a href="http://emojione.com" target="_blank">Emoji One</a></div>
+
 
         </div>
 </div>

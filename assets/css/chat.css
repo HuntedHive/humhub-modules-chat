@@ -224,6 +224,13 @@ HumHub Chat Module Style CSS
    color:   #009ee7 !important;
 }
 
+.attribution-link{
+	text-align:center;
+	opacity:0.5;
+	padding-bottom:30px;
+	font-size:12px;
+}
+
 @media (max-width: 767px) {
     .mes-time {
         float: left !important;
