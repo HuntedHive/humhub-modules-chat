@@ -54,6 +54,7 @@ class WBSChatSmile extends HActiveRecord
     {
         return array(
 //            'symbol' => 'Symbol',
+            'link' => 'Enter image name with extension',
         );
     }
 

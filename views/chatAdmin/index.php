@@ -1,6 +1,5 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-
 <?php
 
 
@@ -17,7 +16,7 @@ $form = $this->beginWidget('HActiveForm',
 
 <h3>Emoticons</h3>
 <p class="help-block"><strong>Note:</strong> This functionality is responsible for adding new emoticons which display on Live Chat</p>
-<p class="help-block"><strong>Example:</strong> Symbol: =D AND Link: https://sc.mogicons.com/l/cute-emoticon-with-half-smile-374.png</p>
+<p class="help-block"><strong>Example:</strong> Symbol: =D AND Image Name: 0024F.png</p>
 <div class="row">
     <div class="col-sm-5">
         <div class="form-group">
@@ -28,7 +27,7 @@ $form = $this->beginWidget('HActiveForm',
     </div>
     <div class="col-sm-5">
         <div class="form-group">
-            <?php echo $form->textField($model, 'link', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter link *',)); ?>
+            <?php echo $form->textField($model, 'link', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter image name with extension *',)); ?>
             <?php echo $form->error($model, 'link'); ?>
             <div class="clearfix"></div>
         </div>

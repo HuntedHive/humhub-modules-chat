@@ -42,6 +42,7 @@ class ChatAdminController extends Controller
         $model        = new WBSChatSmile; // error
         if (isset($_POST['WBSChatSmile'])) {
             $model->attributes = $_POST['WBSChatSmile'];
+            $model->link = $this->module->assetsUrl . "/icons/emojione/" . $model->link;
             $model->save();
             $this->redirect(Yii::app()->request->urlReferrer);
         }
