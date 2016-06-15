@@ -16,7 +16,8 @@ $form = $this->beginWidget('HActiveForm',
 
 <h3>Emoticons</h3>
 <p class="help-block"><strong>Note:</strong> This functionality is responsible for adding new emoticons which display on Live Chat</p>
-<p class="help-block"><strong>Example:</strong> Symbol: =D AND Image Name: 0024F.png</p>
+<p class="help-block"><strong>Example:</strong> Symbol: :) AND Image Name: 263a.png</p>
+<p class="help-block">You can find a listing of file names associated with available icons <a href="http://emojione.com/releases/" target="_blank">here</a>. The filename is the character string which is a set of letters and numbers under the emoji description on the left hand side of the page. Make sure to append the file name with the .png extension when adding the url below.</p>
 <div class="row">
     <div class="col-sm-5">
         <div class="form-group">
