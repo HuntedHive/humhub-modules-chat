@@ -241,7 +241,7 @@
                 <img src='../../../assets/751532a2/icons/emojione/263a.png'/>
                 <div class="popover fade icons top in" role="tooltip" id="popover353330">
                     <div class="arrow" style="left: 50%;"></div>
-                    <div class="popover-content"><?= $htmlImg ?></div>
+                    <div class="popover-emoticons"><?= $htmlImg ?></div>
                 </div>
             </span>
         </div>
