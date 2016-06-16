@@ -37,3 +37,51 @@
         <small>five messages in the last ten minutes</small>
     </div>
 </a>
+
+<script>
+    $(document).ready(function() {
+        var countLiveChat = 1;
+        var countQandA = 2;
+        setTimeout(function() {
+            //deleteMoreOneLiveChat();
+        }, 500);
+        $("#activityContents").on("scroll", function(e) {
+            //deleteMoreOneLiveChat();
+        });
+
+        function deleteMoreOneLiveChat() {
+            var i = 0;
+            if($(".chat-activity").length > countLiveChat) {
+                $.each($(".chat-activity"), function (index, value) {
+                    if (i < countLiveChat) {
+                        i = i + 1;
+                    } else {
+                        $(this).remove();
+                    }
+                });
+            }
+
+            if($(".answer-activity").length > countQandA) {
+                $.each($(".answer-activity"), function (index, value) {
+                    if (i < countQandA) {
+                        i = i + 1;
+                    } else {
+                        $(this).remove();
+                    }
+                });
+            }
+
+            if($(".question-activity").length > countQandA) {
+                $.each($(".question-activity"), function (index, value) {
+                    if (i < countQandA) {
+                        i = i + 1;
+                    } else {
+                        $(this).remove();
+                    }
+                });
+            }
+
+            $("#activityLoader").remove();
+        }
+    });
+</script>
