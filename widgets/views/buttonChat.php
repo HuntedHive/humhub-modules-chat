@@ -43,10 +43,10 @@
         var countLiveChat = 1;
         var countQandA = 2;
         setTimeout(function() {
-            //deleteMoreOneLiveChat();
-        }, 500);
+            deleteMoreOneLiveChat();
+        }, 800);
         $("#activityContents").on("scroll", function(e) {
-            //deleteMoreOneLiveChat();
+            deleteMoreOneLiveChat();
         });
 
         function deleteMoreOneLiveChat() {
@@ -63,7 +63,7 @@
 
             if($(".answer-activity").length > countQandA) {
                 $.each($(".answer-activity"), function (index, value) {
-                    if (i < countQandA) {
+                    if (i <= countQandA) {
                         i = i + 1;
                     } else {
                         $(this).remove();
@@ -73,7 +73,7 @@
 
             if($(".question-activity").length > countQandA) {
                 $.each($(".question-activity"), function (index, value) {
-                    if (i < countQandA) {
+                    if (i <= countQandA) {
                         i = i + 1;
                     } else {
                         $(this).remove();
