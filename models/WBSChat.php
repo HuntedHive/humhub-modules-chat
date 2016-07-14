@@ -1,6 +1,11 @@
 <?php
 
-class WBSChat extends HActiveRecordContent
+namespace humhub\modules\chat\models;
+use humhub\components\ActiveRecord;
+use humhub\modules\content\interfaces\ContentTitlePreview;
+use humhub\modules\user\models\User;
+
+class WBSChat extends ActiveRecord implements ContentTitlePreview
 {
     
     const ABLE_WRITE = 1;
@@ -10,25 +15,25 @@ class WBSChat extends HActiveRecordContent
         self::ABLE_WRITE => 'not banned',
         self::DISABLE_WRITE => 'is banned',
     ];
-    
-    /**
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return ModuleEnabled the static model class
-     */
-    public static function model($className = __CLASS__)
+
+    public function getContentName()
     {
-        return parent::model($className);
+        return Yii::t('CommentModule.models_comment', 'Post');
     }
-    
+
+    public function getContentDescription()
+    {
+        return $this->text;
+    }
+
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public static function tableName()
     {
         return 'wbs_chat';
     }
-    
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -66,7 +71,7 @@ class WBSChat extends HActiveRecordContent
 
     public static function isChating($user_id)
     {
-        $user = User::model()->findByPk($user_id);
+        $user = User::findOne($user_id);
         if(!empty($user)) {
             return (bool)$user->is_chating;
         }

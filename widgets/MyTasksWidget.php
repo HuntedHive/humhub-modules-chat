@@ -1,15 +1,20 @@
 <?php
 
-class MyTasksWidget extends HWidget {
+namespace humhub\modules\chat\widgets;
+
+use humhub\components\Widget;
+
+class MyTasksWidget extends Widget {
 
 	protected $themePath = 'modules/tasks';
 
 	/**
 	 * Creates the Wall Widget
 	 */
-	public function run() {
-		if(Yii::app()->controller->id != "chat") {
-			$this->render('buttonChat');
+	public function run()
+	{
+		if(\Yii::$app->controller->id != "chat") {
+			return $this->render('buttonChat');
 		}
 	}
 }

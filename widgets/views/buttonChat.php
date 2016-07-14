@@ -31,7 +31,7 @@
     }
 </style>
 
-<a class="sender hidden" href="<?= Yii::app()->createUrl("/chat/chat/index"); ?>">
+<a class="sender hidden" href="<?= \yii\helpers\Url::toRoute("/chat/chat/index"); ?>">
     <div class="sticky-chat text-center">
         <h3 class="margin-none"><i class="fa fa-commenting-o"></i> go to live chat</h3>
         <small>five messages in the last ten minutes</small>
@@ -43,10 +43,10 @@
         var countLiveChat = 1;
         var countQandA = 2;
         setTimeout(function() {
-            deleteMoreOneLiveChat();
+           deleteMoreOneLiveChat();
         }, 800);
         $("#activityContents").on("scroll", function(e) {
-            deleteMoreOneLiveChat();
+           deleteMoreOneLiveChat();
         });
 
         function deleteMoreOneLiveChat() {
@@ -72,7 +72,7 @@
             }
 
             if($(".question-activity").length > countQandA) {
-                $.each($(".question-activity"), function (index, value) {
+                $.each($(".question-activity"), function (index, value) {   
                     if (i < countQandA) {
                         i = i + 1;
                     } else {

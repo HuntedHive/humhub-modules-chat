@@ -1,3 +1,10 @@
+<?php
+    use humhub\modules\chat\models\WBSChat;
+    use humhub\modules\user\models\User;
+
+//    ini_set("display_errors", 1);
+?>
+
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -5,16 +12,16 @@
 <script src='http://yuku-t.com/jquery-textcomplete/media/javascripts/jquery.textcomplete.js'></script>
 
 <link rel="stylesheet" type="text/css"
-         href="<?php echo $this->module->assetsUrl; ?>/css/chat.css"/>
-<?php if(WBSChat::isChating(Yii::app()->user->id)) { ?>
+         href="<?php echo $this->context->module->assetsUrl; ?>/css/chat.css"/>
+<?php if(WBSChat::isChating(Yii::$app->user->id)) { ?>
 <script>
     $(document).ready(function() {
-        
+
         //Set connection with server
-        var conn = new WebSocket('ws://localhost:8080?code=<?= Yii::app()->user->guid ?>');
+        var conn = new WebSocket('ws://localhost:8080?code=<?= Yii::$app->user->guid ?>');
         conn.onopen = function(e) {
         };
-        
+
         // On server answer
         conn.onmessage = function(e) {
             if(typeof JSON.parse(e.data) == "object") { //Edit message
@@ -40,7 +47,7 @@
                 $("#messages .part-message:first .mes:last").after(JSON.parse(e.data));
                 $("#messages").animate({ scrollTop: $("#messages .part-message").height() }, 2500);
             }
-            
+
             //after append html add to all messages editable
             $('.message-edit').editable({
                 placement: 'right',
@@ -48,7 +55,7 @@
                 type: 'textarea',
                 rows: '1',
                 toggle: 'manual',
-                url: '<?= Yii::app()->createUrl("chat/chat/edit"); ?>', //history of chat
+                url: '<?= Yii::$app->urlManager->createUrl("chat/chat/edit"); ?>', //history of chat
                 dataType: 'post',
                 success: function(response, newValue) {
                      // $(this).html(response);
@@ -57,41 +64,41 @@
                 }
             });
         };
-        
+
         // popup smiles block
         $(".block-smile img").on("click",function() {
             $(".icons").toggle();
         });
-        
+
         // On click smile add to input text field
         $(".icon").on("click", function() {
             var text = $(".input_text").val();
             $(".input_text").val('');
             $(".input_text").val(text +' '+ $(this).data('symbol') + ' ');
         });
-        
+
         // On click submit button send to server message
         $(".send-message").on("click", function() {
             conn.send(JSON.stringify($(".input_text").val()));
             $(".input_text").val('');
         });
-        
+
         // On up mouse message block show icon of editing but of current user
         $("body").on("mouseover", ".mes", function() {
             $(this).find(".edit-icon").show(100);
         });
-        
+
         // On mouse leave message block, hide icon
         $("body").on("mouseleave", ".mes", function() {
             $(this).find(".edit-icon").hide(70);
         });
-        
+
         // Mention enter symbol @
         $('.input_text').textcomplete([
             {
                 match: /\B@(\w*)$/,
                 search: function (term, callback) {
-                    $.post('<?= Yii::app()->createUrl("chat/chat/users"); ?>',function(data) { // get all user name to @mention list
+                    $.post('<?= Yii::$app->urlManager->createUrl("chat/chat/users"); ?>',function(data) { // get all user name to @mention list
                         var menu = $.parseJSON('[' + data + ']');
                         callback(menu[0]);
                     });
@@ -109,7 +116,7 @@
                 }
             }
         ]);
-        
+
         // On scroll history to top get last messages
         $("#messages").scroll(function(e) {
             var height = $(this).scrollTop();
@@ -117,7 +124,7 @@
                 var count = $(".mes").length;
                 $.ajax({
                     type: 'POST',
-                    url: '<?= Yii::app()->createUrl("chat/chat/history"); ?>', //history of chat
+                    url: '<?= Yii::$app->urlManager->createUrl("chat/chat/history"); ?>', //history of chat
                     data: {'count':count},
                     success: function(data) {
                         $(".part-message").before(data);
@@ -128,7 +135,7 @@
                             type: 'textarea',
                             rows: '1',
                             toggle: 'manual',
-                            url: '<?= Yii::app()->createUrl("chat/chat/edit"); ?>', //history of chat
+                            url: '<?= Yii::$app->urlManager->createUrl("chat/chat/edit"); ?>', //history of chat
                             dataType: 'post',
                             success: function(response, newValue) {
                                 // $(this).html(345);
@@ -141,7 +148,7 @@
                 });
             }
         });
-        
+
         // On reload page set up editable to all messages-edit
         $('.message-edit').editable({
             placement: 'right',
@@ -149,7 +156,7 @@
             type: 'textarea',
             rows: '1',
             toggle: 'manual',
-            url: '<?= Yii::app()->createUrl("chat/chat/edit"); ?>', // Edit message
+            url: '<?= Yii::$app->urlManager->createUrl("chat/chat/edit"); ?>', // Edit message
             dataType: 'post',
             success: function(response, newValue) {
                 // $(this).html();
@@ -158,7 +165,7 @@
                 // none
             }
         });
-        
+
         // Rewrite method on editin field inline
         var span;
         var image;
@@ -205,7 +212,7 @@
             value = value.replace(/(<a target="_blank" style="color:blue;text-decoration:underline;" href="(.*?)">(.*?)<\/a>)/g,'$2');
             return value;
         }
-        
+
         // On load page scroll chat to bottom
         $("#messages").animate({ scrollTop: $("#messages .part-message").height() }, 2200);
 //        var wtf    = $('#messages');
@@ -229,16 +236,16 @@
             </div>
         </div>
 
-        <?php if(WBSChat::isChating(Yii::app()->user->id)) { ?>
+        <?php if(WBSChat::isChating(Yii::$app->user->id)) { ?>
         <div class="form-group">
             <div class="profile-size-sm profile-img-navbar" style="margin-top: 10px;z-index: 100;position: absolute;float: left;">
-                <img id="user-account-image profile-size-sm" class="img-rounded" src="<?= User::model()->findByPk(Yii::app()->user->id)->getProfileImage()->getUrl(); ?>" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
+                <img id="user-account-image profile-size-sm" class="img-rounded" src="<?= Yii::$app->user->getIdentity()->getProfileImage()->getUrl(); ?>" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
                 <div class="profile-overlay-img profile-overlay-img-sm"></div>
             </div>
             <textarea class="form-control input_text" rows="3" placeholder="Click here to type a chat message." style="padding-left:60px;"></textarea>
 
             <span class="block-smile">
-                <img src='<?= $this->module->assetsUrl; ?>/icons/emojione/263a.png'/>
+                <img src='<?= $this->context->module->assetsUrl; ?>/icons/emojione/263a.png'/>
                 <div class="popover fade icons top in" role="tooltip" id="popover353330">
                     <div class="arrow" style="left: 50%;"></div>
                     <div class="popover-emoticons"><?= $htmlImg ?></div>
@@ -249,7 +256,7 @@
         <div class="form-group chat-disabled">
             <textarea disabled class="form-control input_text" rows="3" placeholder="You do not have access to post messages. Please contact site administration if you wish to be allowed to post." style="padding-left:60px;"></textarea>
                 <div class="profile-size-sm profile-img-navbar" style="margin-top: -80px;z-index: 100;position: relative;float: left;">
-                    <img id="user-account-image profile-size-sm" class="img-rounded" src="<?= User::model()->findByPk(Yii::app()->user->id)->getProfileImage()->getUrl(); ?>" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
+                    <img id="user-account-image profile-size-sm" class="img-rounded" src="<?= Yii::$app->user->getIdentity()->getProfileImage()->getUrl(); ?>" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
                     <div class="profile-overlay-img profile-overlay-img-sm"></div>
                 </div>
         </div>
@@ -315,7 +322,7 @@
     $(document).ready(function() {
 
         // check and set panel state from cookie
-        checkPanelMenuCookie('getting-started-panel');
+        //checkPanelMenuCookie('getting-started-panel');
 
         $(".sender").remove();
     });
@@ -335,14 +342,15 @@
 
     </div>
 </div>
-
+            
             <?php
-            $this->widget('application.modules_core.activity.widgets.ActivityStreamWidget', array(
-                'streamAction' => '//dashboard/dashboard/stream',
-            ));
+                \humhub\assets\TeachConnectAsset::register($this);
+                echo \humhub\modules\activity\widgets\Stream::widget(['streamAction' => '/dashboard/dashboard/stream']);
             ?>
 
-            <?php $this->widget('application.modules.questionanswer.widgets.KnowledgeTour'); ?>
+            <?php
+                echo \humhub\modules\tour\widgets\Dashboard::widget();
+            ?>
 
 <script type="text/javascript">
 

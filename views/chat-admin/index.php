@@ -1,16 +1,19 @@
+<?php
+
+use yii\bootstrap\ActiveForm;
+use humhub\modules\chat\models\WBSChat;
+use yii\helpers\Html;
+use yii\helpers\Url;
+?>
+
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <?php
 
 
-$form = $this->beginWidget('HActiveForm',
-    array(
+$form = ActiveForm::begin([
         'id' => 'smile-form',
-//        'enableAjaxValidation' => true,
-//        'enableClientValidation' => true,
-//        'action' => ['create'],
-        'focus' => array($model, 'symbol'),
-    ));
+    ]);
 
 ?>
 
@@ -21,15 +24,13 @@ $form = $this->beginWidget('HActiveForm',
 <div class="row">
     <div class="col-sm-5">
         <div class="form-group">
-            <?php echo $form->textField($model, 'symbol', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter symbol *',)); ?>
-            <?php echo $form->error($model, 'symbol'); ?>
+            <?php echo $form->field($model, 'symbol')->textInput(array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter symbol *')); ?>
             <div class="clearfix"></div>
         </div>
     </div>
     <div class="col-sm-5">
         <div class="form-group">
-            <?php echo $form->textField($model, 'link', array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter image name with extension *',)); ?>
-            <?php echo $form->error($model, 'link'); ?>
+            <?php echo $form->field($model, 'link')->textInput(array('class' => 'form-control input-sm pull-left', 'placeholder' => 'Enter image name with extension *',)); ?>
             <div class="clearfix"></div>
         </div>
     </div>
@@ -37,32 +38,33 @@ $form = $this->beginWidget('HActiveForm',
         <input type='submit' class='btn btn-primary btn-sm' value="Save"/>
     </div>
 </div>
-<?php $this->endWidget(); ?>
+<?php ActiveForm::end(); ?>
 
 <?php
-$this->widget('zii.widgets.grid.CGridView',
+echo \yii\grid\GridView::widget(
     array(
     'dataProvider' => $dataProvider,
     'columns' => array(
         'symbol',
         array(
-            'name' => 'Smile Image',
-            'type' => 'image',
-            'value' => '$data->link',
+            'attribute' => 'Smile Image',
+            'format' => 'raw',
+            'value' => function($data) {
+                return Html::img($data->link, [
+                    'alt'=>'emojine',
+                    'style' => 'width:30px;'
+                ]);
+            }
         ),
         'created_at',
         'updated_at',
         array(
-            'class' => 'CButtonColumn',
+            'class' => \yii\grid\ActionColumn::className(),
             'template' => '{delete}',
             'buttons' => [
-                'delete' => array
-                (
-                    'label'=>'<i class="fa fa-times"></i>',
-                    'imageUrl'=>false,
-                    'options'=>array('class'=>'btn btn-danger btn-xs tt', 'title' => 'delete'),
-                    'url'=>'Yii::app()->createUrl("/chat/chatAdmin/delete", array("id"=>$data->id))',
-                ),
+                'delete' => function ($url,$model) {
+                    return Html::a("delete", Url::toRoute(["/chat/chat-admin/delete", "id"=>$model->id]), array('class' => 'btn btn-danger btn-xs tt', 'title' => 'delete'));
+                }
             ]
         ),
     ),
@@ -74,17 +76,17 @@ $this->widget('zii.widgets.grid.CGridView',
 <h3>Banned Users</h3>
 
 <?php
-$this->widget('zii.widgets.grid.CGridView',
+echo \yii\grid\GridView::widget(
     array(
     'dataProvider' => $dataProviderUser,
     'columns' => array(
         'username',
         array(
-                'type'=>'html',
+                'format'=>'html',
                 'value' => function ($data) {
-                    echo CHtml::link(WBSChat::$write[$data->is_chating], "#", array("class" => "editable-flag", "data-pk" => $data->id));
+                    echo \yii\bootstrap\Html::a(WBSChat::$write[$data->is_chating], "#", array("class" => "editable-flag", "data-pk" => $data->id));
                 },
-                'name' => 'Banned Status',
+                'label' => 'Banned Status',
         ),
     ),
 ));
@@ -101,7 +103,7 @@ $this->widget('zii.widgets.grid.CGridView',
                 type: 'select',
                 send: 'always',
                 source: JSON.parse(select),
-                url: "<?php echo \Yii::app()->createUrl('chat/chatAdmin/ban') ?>", //ban action
+                url: "<?php echo \Yii::$app->urlManager->createUrl('chat/chat-admin/ban') ?>", //ban action
                 dataType: 'post'
             });
     });

@@ -1,21 +1,16 @@
 <?php
 
-class WBSChatSmile extends HActiveRecord
+namespace humhub\modules\chat\models;
+use humhub\components\ActiveRecord;
+
+
+class WBSChatSmile extends ActiveRecord
 {
-    /**
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return ModuleEnabled the static model class
-     */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
     
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public static function tableName()
     {
         return 'wbs_smiles';
     }
@@ -29,21 +24,10 @@ class WBSChatSmile extends HActiveRecord
         // will receive user inputs.
         return array(
             array('symbol', 'unique'),
-            array('link, symbol', 'required'),
-            array('link', 'length'),
-            array('symbol', 'length', 'max' => 50),
+            array(['link', 'symbol'], 'required'),
+            array('link', 'string'),
+            array('symbol', 'string', 'max' => 50),
             array(array('created_at', 'created_by', 'updated_at', 'updated_by', 'link'), 'safe'),
-        );
-    }
-
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
         );
     }
 
@@ -60,7 +44,7 @@ class WBSChatSmile extends HActiveRecord
 
     public static function toSmile($data)
     {
-        $smiles = self::model()->findAll();
+        $smiles = self::find()->all();
         foreach ($smiles as $smile) {
             $data = preg_replace('/'. quotemeta($smile->symbol) .'/', "<img style='width:22px' src='$smile->link'>", $data);
         }

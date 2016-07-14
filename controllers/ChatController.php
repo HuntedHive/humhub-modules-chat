@@ -1,10 +1,19 @@
 <?php
 
+namespace humhub\modules\chat\controllers;
+
+use Yii;
+use humhub\modules\chat\models\WBSChat;
+use humhub\modules\chat\models\WBSChatSmile;
+use humhub\modules\user\models\Profile;
+use humhub\modules\user\models\User;
+use yii\helpers\HtmlPurifier;
+
 /**
  * @package humhub.modules_core.admin.controllers
  * @since 0.5
  */
-class ChatController extends Controller
+class ChatController extends \humhub\components\Controller
 {
     private $imageUrl;
     private $imageHost;
@@ -27,7 +36,7 @@ class ChatController extends Controller
     {
         return array(
 //            array('allow',
-//                'expression' => 'Yii::app()->user->isAdmin()'
+//                'expression' => 'Yii::$app->user->isAdmin()'
 //            ),
             array('deny', // deny all users
                 'users' => array('?'),
@@ -37,16 +46,17 @@ class ChatController extends Controller
 
     public function actionIndex()
     {
-        $icons = WBSChatSmile::model()->findAll();
+
+        $icons = WBSChatSmile::find()->all();
         $sql = 'SELECT * 
                 FROM (SELECT * FROM wbs_chat
                       ORDER BY id DESC 
                       LIMIT 0,20) t
                 ORDER BY id ASC';
-        $modelMessage = Yii::app()->db->createCommand($sql)->queryAll();
+        $modelMessage = Yii::$app->db->createCommand($sql)->queryAll();
         $messages = $this->generateMessages($modelMessage);
         $htmlImg = $this->getIcons($icons);
-        $this->render("index", [
+        return $this->render("index", [
             'htmlImg' => $htmlImg,
             'messages' => $messages,
         ]);
@@ -57,7 +67,7 @@ class ChatController extends Controller
         $count = $_POST['count'];
         
         $sql = 'SELECT * FROM (SELECT * FROM wbs_chat ORDER BY id DESC  LIMIT '. $count . ',' . ($count+20) . ') t ORDER BY id ASC';
-        $modelMessage = Yii::app()->db->createCommand($sql)->queryAll();
+        $modelMessage = Yii::$app->db->createCommand($sql)->queryAll();
         $messages = $this->generateMessages($modelMessage);
         
         echo $messages;
@@ -65,21 +75,19 @@ class ChatController extends Controller
     
     public function actionUsers()
     {
-        $users = Profile::model()->findAll();
+        $users = Profile::find()->all();
         $data = $this->getNames($users);
         echo json_encode($data);
     }
     
     public function actionEdit()
     {
-        if (isset($_POST['pk']) && isset($_POST['value']) && (bool)Yii::app()->user->id) {
+        if (isset($_POST['pk']) && isset($_POST['value']) && (bool)Yii::$app->user->id) {
             $pk = $_POST['pk'];
             $value = $_POST['value'];
             $value = $this->validateText($value);
-            $p = new CHtmlPurifier;
-            $p->setOptions(array('HTML.Allowed'=>'br'));
-            $value = $p->purify($value);
-            WBSChat::model()->updateAll(['text' => $value], 'id=' . $pk);
+            $value = HtmlPurifier::process($value, array('HTML.Allowed'=>'br'));
+            WBSChat::updateAll(['text' => $value], 'id=' . $pk);
             $value = $this->toLink($value);
             $value = $this->toSmile($value);
             $value = $this->getMentions($value);
@@ -111,14 +119,14 @@ class ChatController extends Controller
         $msg.= '<div class="part-message">';
         foreach ($messages as $message) {
                 $this->imageUrl = '';
-                $profile = Profile::model()->find('user_id='. $message['user_id']);
+                $profile = Profile::findOne(['user_id' => $message['user_id']]);
                 if(!empty($profile)) {
                     $user_name = $profile->firstname . " " . $profile->lastname;
                 } else {
                     $user_name = 'user_'. $message['user_id'];
                 }
 
-                $span = ($message['user_id'] == Yii::app()->user->id)?
+                $span = ($message['user_id'] == Yii::$app->user->id)?
                                                                         "<div class='col-xs-12 col-sm-6'>
                                                                         <div class='pull-right edit-mes'>
                                                                             <i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i>
@@ -139,8 +147,8 @@ class ChatController extends Controller
                 $tmp = $this->toLink($message['text']);
                 $tmp = $this->toSmile($tmp);
                 $tmp = $this->getMentions($tmp);
-                $photoUser = file_exists(Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "profile_image" . DIRECTORY_SEPARATOR . User::model()->findByPk($message['user_id'])->guid. ".jpg")?Yii::app()->request->getBaseUrl("/") . "/uploads/profile_image/" . User::model()->findByPk($message['user_id'])->guid. ".jpg":Yii::app()->request->getBaseUrl("/") ."/img/default_user.jpg?cacheId=0";
-                $span .= (!empty($this->imageUrl))?"<a target='_blank' href='$this->imageHost'><img class='img-responsive mes-attachment' src='$this->imageUrl'></a>":'';
+                $photoUser = file_exists(Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "profile_image" . DIRECTORY_SEPARATOR . User::findOne($message['user_id'])->guid. ".jpg")?Yii::$app->request->getBaseUrl("/") . "/uploads/profile_image/" . User::findOne($message['user_id'])->guid. ".jpg":Yii::$app->request->getBaseUrl() ."/img/default_user.jpg?cacheId=0";
+                $span .= (!empty($this->imageUrl))?"<a target='_blank' href='$this->imageHost'><img class='img-responsive mes-attachment' src='$this->imageUrl' width='300'></a>":'';
                 $respond = "<div class='mes'>
                                 <div class='profile-size-sm profile-img-navbar'>
                                     <img id='user-account-image profile-size-sm' class='img-rounded' src='$photoUser' alt='32x32' data-src='holder.js/32x32' height='32' width='32'>
@@ -166,7 +174,7 @@ class ChatController extends Controller
     
     public function toSmile($data)
     {
-        $smiles = WBSChatSmile::model()->findAll();
+        $smiles = WBSChatSmile::find()->all();
         foreach ($smiles as $smile) {
             $data = preg_replace('/'. quotemeta($smile->symbol) .'/', "<img src='$smile->link' data-symbol='$smile->symbol'>", $data);
         }
@@ -202,12 +210,12 @@ class ChatController extends Controller
                     try {
                         if (empty($matchesContent)) {
 //                            if (@getimagesize($urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src)) {
-                                $this->imageHost = $urlHost;
+                                $this->imageHost = $htmlText->find('a', 0)->href;
                                 $this->imageUrl = $urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src;
 //                            }
                         } else {
 //                            if (@getimagesize($htmlContent->find('img', 1)->src)) {
-                                $this->imageHost = $htmlContent->find('img', 1)->src;
+                                $this->imageHost = $htmlText->find('a', 0)->href;
                                 $this->imageUrl = $htmlContent->find('img', 1)->src;
 //                            }
                         }

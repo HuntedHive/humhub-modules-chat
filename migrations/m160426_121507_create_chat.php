@@ -1,6 +1,8 @@
 <?php
 
-class m160426_121507_create_chat extends EDbMigration
+use yii\db\Migration;
+
+class m160426_121507_create_chat extends Migration
 {
 	public function up()
 	{
