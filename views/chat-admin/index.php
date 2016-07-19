@@ -82,7 +82,7 @@ echo \yii\grid\GridView::widget(
     'columns' => array(
         'username',
         array(
-                'format'=>'html',
+                'format'=>'raw',
                 'value' => function ($data) {
                     return yii\bootstrap\Html::a(WBSChat::$write[$data->is_chating], "#", array("class" => "editable-flag", "data-pk" => $data->id));
                 },
