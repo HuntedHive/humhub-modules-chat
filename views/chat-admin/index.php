@@ -84,7 +84,7 @@ echo \yii\grid\GridView::widget(
         array(
                 'format'=>'html',
                 'value' => function ($data) {
-                    echo \yii\bootstrap\Html::a(WBSChat::$write[$data->is_chating], "#", array("class" => "editable-flag", "data-pk" => $data->id));
+                    return yii\bootstrap\Html::a(WBSChat::$write[$data->is_chating], "#", array("class" => "editable-flag", "data-pk" => $data->id));
                 },
                 'label' => 'Banned Status',
         ),
