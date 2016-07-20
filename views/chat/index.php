@@ -18,7 +18,7 @@
     $(document).ready(function() {
 
         //Set connection with server
-        var conn = new WebSocket('ws://localhost:8080?code=<?= Yii::$app->user->guid ?>');
+        var conn = new WebSocket('ws://<?= (isset(Yii::$app->params['serverAddress']) && !empty(Yii::$app->params['serverAddress']))?Yii::$app->params['serverAddress']:'localhost' ?>:<?= (isset(Yii::$app->params['port']) && !empty(Yii::$app->params['port']))?Yii::$app->params['port']:8080 ?>?code=<?= Yii::$app->user->guid ?>');
         conn.onopen = function(e) {
         };
 
