@@ -17,10 +17,28 @@
 <script>
     $(document).ready(function() {
 
+                var serverAddress = '<?= isset(Yii::$app->params['serverAddress'])?Yii::$app->params['serverAddress']:'localhost' ?>';
+        var port = (window.location.protocol == "https:")?'8443':('<?= isset(Yii::$app->params['port'])?Yii::$app->params['port']:'8080'?>');
+        var connectString;
+        if(serverAddress != 'localhost') {
+            var exlodeStr = serverAddress.split("/");
+            connectString = exlodeStr[0]+"/"+ exlodeStr[1];
+        } else {
+            connectString = serverAddress + ":" + port;
+        }
         //Set connection with server
-        var conn = new WebSocket('ws://<?= (isset(Yii::$app->params['serverAddress']) && !empty(Yii::$app->params['serverAddress']))?Yii::$app->params['serverAddress']:'localhost' ?>:<?= (isset(Yii::$app->params['port']) && !empty(Yii::$app->params['port']))?Yii::$app->params['port']:8080 ?>?code=<?= Yii::$app->user->guid ?>');
+        var conn = new WebSocket('ws://'+connectString+'?code=<?= Yii::$app->user->guid ?>');
+        console.log(conn);
         conn.onopen = function(e) {
+                console.log('Connected');
         };
+conn.onclose = function(){
+    console.log("Connection Closed");
+}
+conn.onerror = function(evt){
+    console.log("The following error occurred: " + evt.data);
+}
+
 
         // On server answer
         conn.onmessage = function(e) {
