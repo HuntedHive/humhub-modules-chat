@@ -6,28 +6,32 @@ class m160426_121507_create_chat extends Migration
 {
 	public function up()
 	{
-		$this->createTable('wbs_chat', [
-			'id' => 'pk',
-			'user_id' => 'varchar(100) NOT NULL',
-			'text' => 'text NOT NULL',
-			'file' => 'text NOT NULL',
-			'created_at' => 'datetime NOT NULL',
-			'created_by' => 'int(11) NOT NULL',
-			'updated_at' => 'datetime NOT NULL',
-			'updated_by' => 'int(11) NOT NULL',
-		], ''
-		);
+		if(!\Yii::$app->db->schema->getTableSchema("wbs_chat")) {
+			$this->createTable('wbs_chat', [
+				'id' => 'pk',
+				'user_id' => 'varchar(100) NOT NULL',
+				'text' => 'text NOT NULL',
+				'file' => 'text NOT NULL',
+				'created_at' => 'datetime NOT NULL',
+				'created_by' => 'int(11) NOT NULL',
+				'updated_at' => 'datetime NOT NULL',
+				'updated_by' => 'int(11) NOT NULL',
+			], ''
+			);
+		}
 
-		$this->createTable('wbs_smiles', [
-			'id' => 'pk',
-			'symbol' => 'varchar(50)',
-			'link' => 'text NOT NULL',
-			'created_at' => 'datetime NOT NULL',
-			'created_by' => 'int(11) NOT NULL',
-			'updated_at' => 'datetime NOT NULL',
-			'updated_by' => 'int(11) NOT NULL',
-		], ''
-		);
+		if(!\Yii::$app->db->schema->getTableSchema("wbs_smiles")) {
+			$this->createTable('wbs_smiles', [
+				'id' => 'pk',
+				'symbol' => 'varchar(50)',
+				'link' => 'text NOT NULL',
+				'created_at' => 'datetime NOT NULL',
+				'created_by' => 'int(11) NOT NULL',
+				'updated_at' => 'datetime NOT NULL',
+				'updated_by' => 'int(11) NOT NULL',
+			], ''
+			);
+		}
 
 		$this->addColumn('user', 'is_chating', "INT NOT NULL DEFAULT  '1'");
 	}
