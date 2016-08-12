@@ -287,15 +287,15 @@ conn.onerror = function(evt){
 
         <div class="row">
 
-            <div class="panel panel-default panel-tour" id="getting-started-panel">
+            <div class="panel panel-default panel-tour" id="getting-started-panel1">
 
     <!-- Display panel menu widget -->
     <ul class="nav nav-pills preferences">
     <li class="dropdown ">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-angle-down"></i></a>
         <ul class="dropdown-menu pull-right">
-            <li><a href="javascript:togglePanelUp('getting-started-panel');" class="panel-collapse"><i class="fa fa-minus-square"></i> Collapse</a></li>
-            <li><a href="javascript:togglePanelDown('getting-started-panel');" class="panel-expand" style="display:none;"><i class="fa fa-plus-square"></i> Expand</a></li>
+            <li><a href="javascript:togglePanelUp('getting-started-panel1');" class="panel-collapse"><i class="fa fa-minus-square"></i> Collapse</a></li>
+            <li><a href="javascript:togglePanelDown('getting-started-panel1');" class="panel-expand" style="display:none;"><i class="fa fa-plus-square"></i> Expand</a></li>
 
             <li><!-- add Tooltip to link -->
 
