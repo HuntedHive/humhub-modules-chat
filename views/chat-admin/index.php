@@ -50,7 +50,7 @@ echo \yii\grid\GridView::widget(
             'attribute' => 'Smile Image',
             'format' => 'raw',
             'value' => function($data) {
-                return Html::img($data->link, [
+                return Html::img($this->context->module->assetsUrl ."/icons/emojione/" . $data->link, [
                     'alt'=>'emojine',
                     'style' => 'width:30px;'
                 ]);

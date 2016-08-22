@@ -8,6 +8,8 @@ use humhub\modules\chat\models\WBSChatSmile;
 use humhub\modules\user\models\Profile;
 use humhub\modules\user\models\User;
 use yii\helpers\HtmlPurifier;
+use yii\swiftmailer;
+use yii\mailgun\Mailer;
 
 /**
  * @package humhub.modules_core.admin.controllers
@@ -46,11 +48,13 @@ class ChatController extends \humhub\components\Controller
 
     public function actionIndex()
     {
-
+//        $modulePath = Yii::getAlias('@webroot/protected/modules/chat/assets/icons/emojione');
+//        $results = scandir($modulePath);
+//        var_dump($results);die;
         $icons = WBSChatSmile::find()->all();
-        $sql = 'SELECT * 
+        $sql = 'SELECT *
                 FROM (SELECT * FROM wbs_chat
-                      ORDER BY id DESC 
+                      ORDER BY id DESC
                       LIMIT 0,20) t
                 ORDER BY id ASC';
         $modelMessage = Yii::$app->db->createCommand($sql)->queryAll();
@@ -241,7 +245,9 @@ class ChatController extends \humhub\components\Controller
     {
         $img = '';
         foreach ($icons as $icon) {
-            $img .= "<img data-symbol='$icon->symbol' class='icon' src='$icon->link' />";
+            $icon = $this->module->assetsUrl ."/icons/emojione/" . $icon->link;
+            $symbol = 1;
+            $img .= "<img data-symbol='$symbol' class='icon' src='$icon' />";
         }
         
         return $img;
