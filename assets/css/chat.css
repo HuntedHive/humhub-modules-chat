@@ -127,6 +127,7 @@ HumHub Chat Module Style CSS
 
 .popover-emoticons {
     width: 156px;
+    overflow-y: auto;
     height: 101px;
 }
 
