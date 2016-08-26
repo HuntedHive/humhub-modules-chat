@@ -180,8 +180,9 @@ class ChatController extends \humhub\components\Controller
     {
         $smiles = WBSChatSmile::find()->all();
         foreach ($smiles as $smile) {
-            $data = preg_replace('/'. quotemeta($smile->symbol) .'/', "<img src='$smile->link' data-symbol='$smile->symbol'>", $data);
-        }
+            $absoluteUrl = Yii::$app->request->getBaseUrl();
+            $data = preg_replace('/'. quotemeta($smile->symbol) .'/', "<img src='$absoluteUrl/uploads/emojione/$smile->link' data-symbol='$smile->symbol'>", $data);
+       }
         
         return $data;
     }
