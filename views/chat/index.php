@@ -17,7 +17,7 @@
 <script>
     $(document).ready(function() {
 
-                var serverAddress = '<?= isset(Yii::$app->params['serverAddress'])?Yii::$app->params['serverAddress']:'localhost' ?>';
+                var serverAddress = '<?= isset(Yii::$app->params['serverAddress'])?Yii::$app->params['serverAddress']:'localhost/websocket' ?>';
         var port = (window.location.protocol == "https:")?'8443':('<?= isset(Yii::$app->params['port'])?Yii::$app->params['port']:'8080'?>');
         var connectString;
         var exlodeStr = serverAddress.split("/");
