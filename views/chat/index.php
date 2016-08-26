@@ -268,7 +268,7 @@ conn.onerror = function(evt){
             <textarea class="form-control input_text" rows="3" placeholder="Click here to type a chat message." style="padding-left:60px;"></textarea>
 
             <span class="block-smile">
-                <img src='<?= $this->context->module->assetsUrl; ?>/icons/emojione/263a.png'/>
+                <img src='<?= \Yii::$app->request->getBaseUrl(); ?>/uploads/emojione/263a.png'/>
                 <div class="popover fade icons top in" role="tooltip" id="popover353330">
                     <div class="arrow" style="left: 50%;"></div>
                     <div class="popover-emoticons"><?= $htmlImg ?></div>
