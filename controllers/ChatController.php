@@ -245,9 +245,9 @@ class ChatController extends \humhub\components\Controller
     {
         $img = '';
         foreach ($icons as $icon) {
-            $icon = $this->module->assetsUrl ."/icons/emojione/" . $icon->link;
-            $symbol = 1;
-            $img .= "<img data-symbol='$symbol' class='icon' src='$icon' />";
+            $iconLink = Yii::$app->request->getBaseUrl() . "/uploads/emojione/" . $icon->link;
+            $symbol = $icon->symbol;
+            $img .= "<img data-symbol='$symbol' class='icon' src='$iconLink' />";
         }
         
         return $img;
