@@ -251,7 +251,7 @@ conn.onerror = function(evt){
         <h4 class="margin-none padding-bottom-sm"><strong>Chat with the</strong> TeachConnect Community</h4>
     </div>
     <br>
-    <div class="col-md-8">
+    <div class="col-md-7">
 
         <div class="form-group">
             <div class="form-control" id="messages">
@@ -288,7 +288,7 @@ conn.onerror = function(evt){
             <a class="send-message btn btn-success pull-right" onClick="return false" href="">Send</a>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
 
         <div class="row">
 
@@ -302,10 +302,6 @@ conn.onerror = function(evt){
             <li><a href="javascript:togglePanelUp('getting-started-panel1');" class="panel-collapse"><i class="fa fa-minus-square"></i> Collapse</a></li>
             <li><a href="javascript:togglePanelDown('getting-started-panel1');" class="panel-expand" style="display:none;"><i class="fa fa-plus-square"></i> Expand</a></li>
 
-            <li><!-- add Tooltip to link -->
-
-
-<!-- Link to call the confirm modal -->
 
     <!-- create normal link element -->
     <a id="deleteLinkPost_hide-panel-button" class="" style="" href="#" data-toggle="modal" data-target="#confirmModal_hide-panel-button">
@@ -336,7 +332,7 @@ conn.onerror = function(evt){
 
 
 </script>
-<!-- end: Confirm modal --></li>        </ul>
+ </ul>
     </li>
 </ul>
 
