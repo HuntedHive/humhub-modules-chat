@@ -303,11 +303,6 @@ conn.onerror = function(evt){
             <li><a href="javascript:togglePanelDown('getting-started-panel1');" class="panel-expand" style="display:none;"><i class="fa fa-plus-square"></i> Expand</a></li>
 
 
-    <!-- create normal link element -->
-    <a id="deleteLinkPost_hide-panel-button" class="" style="" href="#" data-toggle="modal" data-target="#confirmModal_hide-panel-button">
-        <i class="fa fa-eye-slash"></i>  Remove panel    </a>
-
-
 <!-- start: Confirm modal -->
 
 
