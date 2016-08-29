@@ -336,7 +336,8 @@ conn.onerror = function(evt){
     $(document).ready(function() {
 
         // check and set panel state from cookie
-        //checkPanelMenuCookie('getting-started-panel');
+        checkPanelMenuCookie('getting-started-panel');
+        checkPanelMenuCookie('getting-started-panel1');
 
         $(".sender").remove();
     });
