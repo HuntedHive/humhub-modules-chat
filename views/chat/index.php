@@ -256,7 +256,7 @@
         <h4 class="margin-none padding-bottom-sm"><strong>Chat with the</strong> TeachConnect Community</h4>
     </div>
     <br>
-    <div class="col-md-7">
+    <div class="col-md-8">
 
         <div class="form-group">
             <div class="form-control" id="messages">
@@ -293,7 +293,7 @@
             <a class="send-message btn btn-success pull-right" onClick="return false" href="">Send</a>
         </div>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-4">
 
         <div class="row">
 
@@ -350,7 +350,7 @@
 
 </script>
     <div class="panel-heading">
-        <strong>Welcome</strong> to the TeachConnect live chat room.</div>
+        <strong>Welcome</strong> to the <br> TeachConnect live chat room.</div>
     <div class="panel-body">
         <ul>
             <li>What's been on your mind lately?</li>
