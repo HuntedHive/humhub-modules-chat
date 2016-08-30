@@ -8,11 +8,10 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src='http://yuku-t.com/jquery-overlay/jquery.overlay.js'></script>
-<script src='http://yuku-t.com/jquery-textcomplete/media/javascripts/jquery.textcomplete.js'></script>
+<script src="<?php echo $this->context->module->assetsUrl; ?>/js/jquery.overlay.js"></script>
+<script src="<?php echo $this->context->module->assetsUrl; ?>/js/textcomplete.js"></script>
 
-<link rel="stylesheet" type="text/css"
-         href="<?php echo $this->context->module->assetsUrl; ?>/css/chat.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->context->module->assetsUrl; ?>/css/chat.css"/>
 <?php if(WBSChat::isChating(Yii::$app->user->id)) { ?>
 <script>
     $(document).ready(function() {
@@ -42,12 +41,13 @@
         conn.onopen = function(e) {
                 console.log('Connected');
         };
-conn.onclose = function(){
-    console.log("Connection Closed");
-}
-conn.onerror = function(evt){
-    console.log("The following error occurred: " + evt.data);
-}
+
+        conn.onclose = function(){
+            console.log("Connection Closed");
+        }
+        conn.onerror = function(evt){
+            console.log("The following error occurred: " + evt.data);
+        }
 
 
         // On server answer
