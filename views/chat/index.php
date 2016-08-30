@@ -20,19 +20,24 @@
                 var serverAddress = '<?= isset(Yii::$app->params['serverAddress'])?Yii::$app->params['serverAddress']:'localhost/websocket' ?>';
         var port = (window.location.protocol == "https:")?'8443':('<?= isset(Yii::$app->params['port'])?Yii::$app->params['port']:'8080'?>');
         var connectString;
+        var protocol;
         var exlodeStr = serverAddress.split("/");
-        if(exlodeStr[0] != 'localhost') {
-            connectString = exlodeStr[0]+"/"+ exlodeStr[1];
-         } else {
-            connectString = exlodeStr[0]+":"+port+"/"+exlodeStr[1];
-         }
-         
+//        if(exlodeStr[0] != 'localhost') {
+//            connectString = exlodeStr[0]+"/"+ exlodeStr[1];
+//         } else {
+//            connectString = exlodeStr[0]+":"+port+"/"+exlodeStr[1];
+//         }
+//
          if(window.location.protocol == "https:") {
-            connectString = exlodeStr[0]+":"+port+"/"+exlodeStr[1];
+             protocol = 'wss';
+         } else {
+             protocol = 'ws';
          }
+
+        connectString = exlodeStr[0]+"/"+ exlodeStr[1];
          
         //Set connection with server
-        var conn = new WebSocket('ws://'+connectString+'?code=<?= Yii::$app->user->guid ?>');
+        var conn = new WebSocket(protocol+'://'+connectString+'?code=<?= Yii::$app->user->guid ?>');
         console.log(conn);
         conn.onopen = function(e) {
                 console.log('Connected');
