@@ -51,7 +51,7 @@ class ChatController extends \humhub\components\Controller
 //        $modulePath = Yii::getAlias('@webroot/protected/modules/chat/assets/icons/emojione');
 //        $results = scandir($modulePath);
 //        var_dump($results);die;
-        $icons = WBSChatSmile::find()->all();
+        $icons = WBSChatSmile::find()->andWhere(['status' => WBSChatSmile::STATUS_VISIBLE])->all();
         $sql = 'SELECT *
                 FROM (SELECT * FROM wbs_chat
                       ORDER BY id DESC

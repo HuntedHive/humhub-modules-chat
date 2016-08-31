@@ -6,7 +6,10 @@ use humhub\components\ActiveRecord;
 
 class WBSChatSmile extends ActiveRecord
 {
-    
+
+    const STATUS_VISIBLE = 1;
+    const STATUS_HIDDEN = 2;
+
     /**
      * @return string the associated database table name
      */
@@ -27,6 +30,7 @@ class WBSChatSmile extends ActiveRecord
             array(['link', 'symbol'], 'required'),
             array('link', 'string'),
             array('symbol', 'string', 'max' => 50),
+            array('status' , 'integer'),
             array(array('created_at', 'created_by', 'updated_at', 'updated_by', 'link'), 'safe'),
         );
     }

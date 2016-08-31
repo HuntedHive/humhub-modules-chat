@@ -46,12 +46,12 @@ class ChatAdminController extends Controller
 
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider(['query' => WBSChatSmile::find()]);
+        $dataProvider = new ActiveDataProvider(['query' => WBSChatSmile::find()->andWhere(['status' => WBSChatSmile::STATUS_VISIBLE])]);
         $dataProviderUser = new ActiveDataProvider(['query' => User::find()]);
         $model        = new WBSChatSmile; // error
         if (isset($_POST['WBSChatSmile'])) {
             $model->load(Yii::$app->request->post());
-            $model->link = $this->module->assetsUrl . "/icons/emojione/" . $model->link;
+            $model->status = WBSChatSmile::STATUS_VISIBLE;
             $model->save();
             $this->redirect(Yii::$app->request->referrer);
         }
@@ -66,7 +66,8 @@ class ChatAdminController extends Controller
     {
         $data = WBSChatSmile::findOne($id);
         if(!empty($data)) {
-            $data->delete();
+            $data->status = WBSChatSmile::STATUS_HIDDEN;
+            $data->save();
         }
         $this->redirect(Yii::$app->request->referrer);
     }
