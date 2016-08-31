@@ -53,7 +53,10 @@ class ChatAdminController extends Controller
             $model->load(Yii::$app->request->post());
             $model->status = WBSChatSmile::STATUS_VISIBLE;
             $model->save();
-            $this->redirect(Yii::$app->request->referrer);
+
+            if(!$model->hasErrors()) {
+                return $this->redirect(Yii::$app->request->referrer);
+            }
         }
         return $this->render("index", [
             'dataProvider' => $dataProvider,
