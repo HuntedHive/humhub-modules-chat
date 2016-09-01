@@ -10,6 +10,8 @@ use humhub\modules\user\models\User;
 use yii\helpers\HtmlPurifier;
 use yii\swiftmailer;
 use yii\mailgun\Mailer;
+use humhub\components\Controller;
+use humhub\components\behaviors\AccessControl;
 
 /**
  * @package humhub.modules_core.admin.controllers
@@ -19,14 +21,14 @@ class ChatController extends \humhub\components\Controller
 {
     private $imageUrl;
     private $imageHost;
-    /**
-     * @return array action filters
-     */
-    public function filters()
+
+    public function behaviors()
     {
-        return array(
-            'accessControl', // perform access control for CRUD operations
-        );
+        return [
+            'acl' => [
+                'class' => AccessControl::className(),
+            ]
+        ];
     }
 
     /**
