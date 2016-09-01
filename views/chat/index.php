@@ -21,12 +21,7 @@
         var connectString;
         var protocol;
         var exlodeStr = serverAddress.split("/");
-//        if(exlodeStr[0] != 'localhost') {
-//            connectString = exlodeStr[0]+"/"+ exlodeStr[1];
-//         } else {
-//            connectString = exlodeStr[0]+":"+port+"/"+exlodeStr[1];
-//         }
-//
+        
          if(window.location.protocol == "https:") {
              protocol = 'wss';
          } else {
@@ -34,65 +29,73 @@
          }
 
         connectString = exlodeStr[0]+"/"+ exlodeStr[1];
-         
+        var conn;
         //Set connection with server
-        var conn = new WebSocket(protocol+'://'+connectString+'?code=<?= Yii::$app->user->guid ?>');
-        console.log(conn);
-        conn.onopen = function(e) {
-                console.log('Connected');
-        };
+        function connect() {
+	        conn = new WebSocket(protocol+'://'+connectString+'?code=<?= Yii::$app->user->guid ?>');
+	        console.log(conn);
+	        conn.onopen = function(e) {
+	                console.log('Connected');
+	        };
 
-        conn.onclose = function(){
-            console.log("Connection Closed");
-        }
-        conn.onerror = function(evt){
-            console.log("The following error occurred: " + evt.data);
-        }
+	        conn.onclose = function(e) {
+	            console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+			    setTimeout(function() {
+			      connect();
+			    }, 1000)
+
+	        }
+
+	        conn.onerror = function(evt) {
+	            console.log("The following error occurred: " + evt);
+	        }
 
 
-        // On server answer
-        conn.onmessage = function(e) {
-            if(typeof JSON.parse(e.data) == "object") { //Edit message
-                var pk = JSON.parse(e.data)[0];
-                var text = JSON.parse(e.data)[1];
-                var image = JSON.parse(e.data)[2];
-                var flagImage = JSON.parse(e.data)[3];
-                var htmlTag = $(".mes [data-pk='"+pk+"']");
+	        // On server answer
+	        conn.onmessage = function(e) {
+	            if(typeof JSON.parse(e.data) == "object") { //Edit message
+	                var pk = JSON.parse(e.data)[0];
+	                var text = JSON.parse(e.data)[1];
+	                var image = JSON.parse(e.data)[2];
+	                var flagImage = JSON.parse(e.data)[3];
+	                var htmlTag = $(".mes [data-pk='"+pk+"']");
 
-                if(htmlTag.find(".mes-body").length) {
-                    htmlTag.removeAttr('style').find(".mes-body").html(text)
-                } else {
-                    htmlTag.removeAttr('style').html(text);
-                }
+	                if(htmlTag.find(".mes-body").length) {
+	                    htmlTag.removeAttr('style').find(".mes-body").html(text)
+	                } else {
+	                    htmlTag.removeAttr('style').html(text);
+	                }
 
-                htmlTag.parents(".mes").find(".img-responsive").remove(); // remove image in another user
+	                htmlTag.parents(".mes").find(".img-responsive").remove(); // remove image in another user
 
-                if(flagImage) {
-                    htmlTag.parents(".mes").append(image);
-                }
+	                if(flagImage) {
+	                    htmlTag.parents(".mes").append(image);
+	                }
 
-            } else { // Add new message
-                $("#messages .part-message:first .mes:last").after(JSON.parse(e.data));
-                $("#messages").animate({ scrollTop: $("#messages .part-message").height() }, 2500);
-            }
+	            } else { // Add new message
+	                $("#messages .part-message:first .mes:last").after(JSON.parse(e.data));
+	                $("#messages").animate({ scrollTop: $("#messages .part-message").height() }, 2500);
+	            }
 
-            //after append html add to all messages editable
-            $('.message-edit').editable({
-                placement: 'right',
-                mode: 'inline',
-                type: 'textarea',
-                rows: '1',
-                toggle: 'manual',
-                url: '<?= Yii::$app->urlManager->createUrl("chat/chat/edit"); ?>', //history of chat
-                dataType: 'post',
-                success: function(response, newValue) {
-                     // $(this).html(response);
-                },
-                display: function(value) {
-                }
-            });
-        };
+	            //after append html add to all messages editable
+	            $('.message-edit').editable({
+	                placement: 'right',
+	                mode: 'inline',
+	                type: 'textarea',
+	                rows: '1',
+	                toggle: 'manual',
+	                url: '<?= Yii::$app->urlManager->createUrl("chat/chat/edit"); ?>', //history of chat
+	                dataType: 'post',
+	                success: function(response, newValue) {
+	                     // $(this).html(response);
+	                },
+	                display: function(value) {
+	                }
+	            });
+	        };
+    	}
 
+    	connect();
         // popup smiles block
         $(".block-smile img").on("click",function() {
             $(".icons").toggle();
