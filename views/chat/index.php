@@ -21,7 +21,7 @@
         var connectString;
         var protocol;
         var exlodeStr = serverAddress.split("/");
-        
+
          if(window.location.protocol == "https:") {
              protocol = 'wss';
          } else {
@@ -48,6 +48,7 @@
 
 	        conn.onerror = function(evt) {
 	            console.log("The following error occurred: " + evt);
+	            conn.close();
 	        }
 
 
