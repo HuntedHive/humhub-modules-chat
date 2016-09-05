@@ -56,7 +56,7 @@
                     if (i < countLiveChat) {
                         i = i + 1;
                     } else {
-                        $(this).remove();
+                        $(this).parents("a").remove();
                     }
                 });
             }
@@ -66,7 +66,7 @@
                     if (i < countQandA) {
                         i = i + 1;
                     } else {
-                        $(this).remove();
+                        $(this).parents("a").remove();
                     }
                 });
             }
@@ -76,7 +76,7 @@
                     if (i < countQandA) {
                         i = i + 1;
                     } else {
-                        $(this).remove();
+                        $(this).parents("a").remove();
                     }
                 });
             }
