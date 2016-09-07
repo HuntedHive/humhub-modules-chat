@@ -1,3 +1,6 @@
+<?php
+if(\Yii::$app->controller->id != "chat") {
+?>
 <script>
     $(document).ready(function() {
         var sender = $(".sender").clone();
@@ -37,7 +40,7 @@
         <small>five messages in the last ten minutes</small>
     </div>
 </a>
-
+<?php } ?>
 <script>
     $(document).ready(function() {
         var countLiveChat = 1;
@@ -76,7 +79,7 @@
 
             if($(".question-activity").length > countQandA) {
                 i = 0;
-                $.each($(".question-activity"), function (index, value) {   
+                $.each($(".question-activity"), function (index, value) {
                     if (i < countQandA) {
                         i = i + 1;
                     } else {
@@ -84,8 +87,8 @@
                     }
                 });
             }
-
-            //$("#activityLoader").remove();
+            
+            $("#activityLoader").fadeOut(1);
         }
     });
 </script>
