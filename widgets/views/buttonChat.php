@@ -85,7 +85,7 @@
                 });
             }
 
-            $("#activityLoader").remove();
+            //$("#activityLoader").remove();
         }
     });
 </script>
