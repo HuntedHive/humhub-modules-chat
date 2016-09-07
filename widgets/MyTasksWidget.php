@@ -13,9 +13,7 @@ class MyTasksWidget extends Widget {
 	 */
 	public function run()
 	{
-		if(\Yii::$app->controller->id != "chat") {
-			return $this->render('buttonChat');
-		}
+		return $this->render('buttonChat');
 	}
 }
 
