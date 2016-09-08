@@ -50,7 +50,7 @@ class WBSChatSmile extends ActiveRecord
     {
         $smiles = self::find()->all();
         foreach ($smiles as $smile) {
-            $data = preg_replace('/'. quotemeta($smile->symbol) .'/', "<img style='width:22px' src='$smile->link'>", $data);
+            $data = preg_replace('/'. quotemeta($smile->symbol) .'/', "<img style='width:22px' src='". \Yii::$app->request->baseUrl . "/uploads/emojione/$smile->link'>", $data);
         }
 
         return $data;
