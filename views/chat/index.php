@@ -369,9 +369,9 @@
             <li>What's been on your mind lately?</li>
             <li>What's been going on in your classroom?</li>
         </ul>
-        <p>Just type your message and press <strong>[enter]</strong> to join the chat.</p>
+        <p>Just type your message and press <strong>[send]</strong> to join the chat.</p>
 
-        <p>We will be hosting live events here every Wednesday at 15:30 - come and join us.</p>
+        <p>We will be hosting live chat events here throughout the year.</p>
 
     </div>
 </div>
