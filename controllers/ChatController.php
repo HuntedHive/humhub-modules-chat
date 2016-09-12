@@ -122,7 +122,6 @@ class ChatController extends \humhub\components\Controller
     {
         $msg = '';
         $tmp = '';
-        $msg.= '<div class="part-message">';
         foreach ($messages as $message) {
                 $this->imageUrl = '';
                 $profile = Profile::findOne(['user_id' => $message['user_id']]);
@@ -164,7 +163,6 @@ class ChatController extends \humhub\components\Controller
                             "</div>";
                 $msg.=$respond;
         }
-        $msg.= '</div>';
         return $msg;
     }
     
