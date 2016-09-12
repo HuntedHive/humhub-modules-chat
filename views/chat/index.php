@@ -74,8 +74,8 @@
 	                }
 
 	            } else { // Add new message
-	                $("#messages .part-message:first .mes:last").after(JSON.parse(e.data));
-	                $("#messages").animate({ scrollTop: $("#messages .part-message").height() }, 2500);
+	                $("#messages .mes:last").after(JSON.parse(e.data));
+                    	$("#messages").animate({ scrollTop: $("#messages")[0].scrollHeight }, 2200);
 	            }
 
 	            //after append html add to all messages editable
@@ -148,10 +148,15 @@
                 }
             }
         ]);
-
+	
+	 $("#messages").on("mousewheel", function(e) {
+            $(this).stop();
+        });
+	
         // On scroll history to top get last messages
         $("#messages").scroll(function(e) {
             var height = $(this).scrollTop();
+            var scrollHeight = $(this).prop('scrollHeight');
             if(height == 0) {
                 var count = $(".mes").length;
                 $.ajax({
@@ -159,7 +164,14 @@
                     url: '<?= Yii::$app->urlManager->createUrl("chat/chat/history"); ?>', //history of chat
                     data: {'count':count},
                     success: function(data) {
-                        $(".part-message").before(data);
+                        $("#messages .mes:first").before(data);
+
+                        setTimeout(function() {
+                            var currentScrollHeight = $("#messages").prop('scrollHeight');
+                            $("#messages").animate({scrollTop: currentScrollHeight - scrollHeight}, 100)  ;
+                            console.log(currentScrollHeight);
+                            console.log(scrollHeight);
+                        } , 10);
 
                         $('.message-edit').editable({
                             placement: 'right',
@@ -245,11 +257,8 @@
             return value;
         }
 
-        // On load page scroll chat to bottom
-        $("#messages").animate({ scrollTop: $("#messages .part-message").height() }, 2200);
-//        var wtf    = $('#messages');
-//        var height = wtf[0].scrollHeight;
-//        wtf.scrollTop(height);
+       // On load page scroll chat to bottom
+        $("#messages").animate({ scrollTop: $("#messages")[0].scrollHeight }, 2200);
 
 
     });
