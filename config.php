@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://www.humhub.org/
+ * @copyright Copyright (c) 2015 HumHub GmbH & Co. KG
+ * @license https://www.humhub.org/licences GNU AGPL v3
+ */
+
 use humhub\widgets\TopMenu;
 use humhub\modules\admin\widgets\AdminMenu;
 use humhub\modules\dashboard\widgets\Sidebar;
