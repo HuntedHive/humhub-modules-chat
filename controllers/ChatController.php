@@ -118,7 +118,7 @@ class ChatController extends \humhub\components\Controller
     {
         $array = [];
         foreach ($users as $user) {
-            $array[] = $user->firstname . '_' . $user->lastname;
+            $array[] = str_replace(" ", "_", $user->firstname . '_' . $user->lastname);
         }
         
         return $array;
