@@ -36,6 +36,7 @@ use yii\swiftmailer;
 use yii\mailgun\Mailer;
 use humhub\components\Controller;
 use humhub\components\behaviors\AccessControl;
+use humhub\models\Setting;
 
 /**
  * @package humhub.modules_core.admin.controllers
@@ -146,6 +147,8 @@ class ChatController extends \humhub\components\Controller
     {
         $msg = '';
         $tmp = '';
+        $timeZone = Setting::find()->andFilterWhere(['name' => 'timeZone'])->one()->value;
+
         foreach ($messages as $message) {
                 $this->imageUrl = '';
                 $profile = Profile::findOne(['user_id' => $message['user_id']]);
@@ -155,19 +158,24 @@ class ChatController extends \humhub\components\Controller
                     $user_name = 'user_'. $message['user_id'];
                 }
 
+                $date = new \DateTime($message['created_at'], new \DateTimeZone('UTC'));
+                $timestamp = $date->getTimestamp();
+                $date->setTimezone(new \DateTimeZone($timeZone));
+                $date->setTimestamp($timestamp);
+
                 $span = ($message['user_id'] == Yii::$app->user->id)?
                                                                         "<div class='col-xs-12 col-sm-6'>
                                                                         <div class='pull-right edit-mes'>
                                                                             <i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i>
                                                                         </div> 
                                                                         <span class='mes-time pull-right'>".
-                                                                            date("F j, Y, g:i a", strtotime($message['created_at']))  .
+                                                                            $date->format("F j, Y, g:i a")  .
                                                                         "</span></div>".
                                                                         "<div class='clearfix'></div>
                                                                         <div class='col-xs-12 mes-body'><span data-pk='$message[id]' class='message-edit editable-click'>:msg</span></div>"
                                                                     :
                                                                         "<span data-pk='$message[id]' class='message-default'>
-                                                                            <div class='col-xs-12 col-sm-6'><span class='mes-time mes-time-other pull-right'>". date("F j, Y, g:i a", strtotime($message['created_at']))  . "</span></div>
+                                                                            <div class='col-xs-12 col-sm-6'><span class='mes-time mes-time-other pull-right'>". $date->format("F j, Y, g:i a")  . "</span></div>
                                                                             <div class='clearfix'></div>
                                                                             <div class='col-xs-12 mes-body'>:msg</div>
                                                                         </span>";
