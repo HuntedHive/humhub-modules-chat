@@ -37,7 +37,6 @@ if(\Yii::$app->controller->id != "chat") {
 <a class="sender hidden" href="<?= \yii\helpers\Url::toRoute("/chat/chat/index"); ?>">
     <div class="sticky-chat text-center">
         <h3 class="margin-none"><i class="fa fa-commenting-o"></i> go to live chat</h3>
-        <small>five messages in the last ten minutes</small>
     </div>
 </a>
 <?php } ?>
