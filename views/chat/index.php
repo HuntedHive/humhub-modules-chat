@@ -242,6 +242,14 @@
             return true;
         });
 
+        // send message if Ctrl+Enter pressed
+        $('.input_text').keydown(function (e) {
+            if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10)) {
+                conn.send(JSON.stringify($(".input_text").val()));
+                $(".input_text").val('');
+            }
+        });
+
         $(document).on("click",".editable-cancel", function() {
             if(image.length) {
                 image.toggleClass("hidden");
@@ -283,7 +291,7 @@
                 <img id="user-account-image profile-size-sm" class="img-rounded" src="<?= Yii::$app->user->getIdentity()->getProfileImage()->getUrl(); ?>" alt="32x32" data-src="holder.js/32x32" height="32" width="32">
                 <div class="profile-overlay-img profile-overlay-img-sm"></div>
             </div>
-            <textarea class="form-control input_text" rows="3" placeholder="Click here to type a chat message." style="padding-left:60px;"></textarea>
+            <textarea class="form-control input_text" rows="3" placeholder="Click here to type a chat message. Press [send] button or ctrl + enter to join the chat." style="padding-left:60px;"></textarea>
 
             <span class="block-smile">
                 <img src='<?= \Yii::$app->request->getBaseUrl(); ?>/uploads/emojione/263a.png'/>
@@ -369,8 +377,7 @@
             <li>What's been on your mind lately?</li>
             <li>What's been going on in your classroom?</li>
         </ul>
-        <p>Just type your message and press <strong>[send]</strong> to join the chat.</p>
-
+        <p>Just type your message and press <strong>[send]</strong> or <strong>ctrl + enter</strong> to join the chat.</p>
         <p>We will be hosting live chat events here throughout the year.</p>
 
     </div>
