@@ -92,25 +92,25 @@ class ChatController extends \humhub\components\Controller
             'messages' => $messages,
         ]);
     }
-    
+
     public function actionHistory()
     {
         $count = $_POST['count'];
-        
+
         $sql = 'SELECT * FROM (SELECT * FROM wbs_chat ORDER BY id DESC  LIMIT '. $count . ',' . ($count+20) . ') t ORDER BY id ASC';
         $modelMessage = Yii::$app->db->createCommand($sql)->queryAll();
         $messages = $this->generateMessages($modelMessage);
-        
+
         echo $messages;
     }
-    
+
     public function actionUsers()
     {
         $users = Profile::find()->all();
         $data = $this->getNames($users);
         echo json_encode($data);
     }
-    
+
     public function actionEdit()
     {
         if (isset($_POST['pk']) && isset($_POST['value']) && (bool)Yii::$app->user->id) {
@@ -127,22 +127,22 @@ class ChatController extends \humhub\components\Controller
             echo "Erorr of data editing";
         }
     }
-    
+
     protected function getMentions($messages)
     {
         return preg_replace('/[\s]?(@[a-zA-z0-9]+)[\s]/', " <span class='mention'>$1</span> ", $messages);
     }
-    
+
     protected function getNames($users)
     {
         $array = [];
         foreach ($users as $user) {
             $array[] = str_replace(" ", "_", $user->firstname . '_' . $user->lastname);
         }
-        
+
         return $array;
     }
-    
+
     protected function generateMessages($messages)
     {
         $msg = '';
@@ -150,54 +150,54 @@ class ChatController extends \humhub\components\Controller
         $timeZone = Setting::find()->andFilterWhere(['name' => 'timeZone'])->one()->value;
 
         foreach ($messages as $message) {
-                $this->imageUrl = '';
-                $profile = Profile::findOne(['user_id' => $message['user_id']]);
-                if(!empty($profile)) {
-                    $user_name = $profile->firstname . " " . $profile->lastname;
-                } else {
-                    $user_name = 'user_'. $message['user_id'];
-                }
+            $this->imageUrl = '';
+            $profile = Profile::findOne(['user_id' => $message['user_id']]);
+            if(!empty($profile)) {
+                $user_name = $profile->firstname . " " . $profile->lastname;
+            } else {
+                $user_name = 'user_'. $message['user_id'];
+            }
 
-                $date = new \DateTime($message['created_at'], new \DateTimeZone('UTC'));
-                $timestamp = $date->getTimestamp();
-                $date->setTimezone(new \DateTimeZone($timeZone));
-                $date->setTimestamp($timestamp);
+            $date = new \DateTime($message['created_at'], new \DateTimeZone('UTC'));
+            $timestamp = $date->getTimestamp();
+            $date->setTimezone(new \DateTimeZone($timeZone));
+            $date->setTimestamp($timestamp);
 
-                $span = ($message['user_id'] == Yii::$app->user->id)?
-                                                                        "<div class='col-xs-12 col-sm-6'>
+            $span = ($message['user_id'] == Yii::$app->user->id)?
+                "<div class='col-xs-12 col-sm-6'>
                                                                         <div class='pull-right edit-mes'>
                                                                             <i style='display:none' class='pull-right edit-icon glyphicon glyphicon-edit'></i>
                                                                         </div> 
                                                                         <span class='mes-time pull-right'>".
-                                                                            $date->format("F j, Y, g:i a")  .
-                                                                        "</span></div>".
-                                                                        "<div class='clearfix'></div>
+                $date->format("F j, Y, g:i a")  .
+                "</span></div>".
+                "<div class='clearfix'></div>
                                                                         <div class='col-xs-12 mes-body'><span data-pk='$message[id]' class='message-edit editable-click'>:msg</span></div>"
-                                                                    :
-                                                                        "<span data-pk='$message[id]' class='message-default'>
+                :
+                "<span data-pk='$message[id]' class='message-default'>
                                                                             <div class='col-xs-12 col-sm-6'><span class='mes-time mes-time-other pull-right'>". $date->format("F j, Y, g:i a")  . "</span></div>
                                                                             <div class='clearfix'></div>
                                                                             <div class='col-xs-12 mes-body'>:msg</div>
                                                                         </span>";
 
 
-                $tmp = $this->toLink($message['text']);
-                $tmp = $this->toSmile($tmp);
-                $tmp = $this->getMentions($tmp);
-                $photoUser = file_exists(Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "profile_image" . DIRECTORY_SEPARATOR . User::findOne($message['user_id'])->guid. ".jpg")?Yii::$app->request->getBaseUrl("/") . "/uploads/profile_image/" . User::findOne($message['user_id'])->guid. ".jpg":Yii::$app->request->getBaseUrl() ."/img/default_user.jpg?cacheId=0";
-                $span .= (!empty($this->imageUrl))?"<a target='_blank' href='$this->imageHost'><img class='img-responsive mes-attachment' src='$this->imageUrl' width='300'></a>":'';
-                $respond = "<div class='mes'>
+            $tmp = $this->toLink($message['text']);
+            $tmp = $this->toSmile($tmp);
+            $tmp = $this->getMentions($tmp);
+            $photoUser = file_exists(Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "profile_image" . DIRECTORY_SEPARATOR . User::findOne($message['user_id'])->guid. ".jpg")?Yii::$app->request->getBaseUrl("/") . "/uploads/profile_image/" . User::findOne($message['user_id'])->guid. ".jpg":Yii::$app->request->getBaseUrl() ."/img/default_user.jpg?cacheId=0";
+            $span .= (!empty($this->imageUrl))?"<a target='_blank' href='$this->imageHost'><img class='img-responsive mes-attachment' src='$this->imageUrl' width='300'></a>":'';
+            $respond = "<div class='mes'>
                                 <div class='profile-size-sm profile-img-navbar'>
                                     <img id='user-account-image profile-size-sm' class='img-rounded' src='$photoUser' alt='32x32' data-src='holder.js/32x32' height='32' width='32'>
                                     <div class='profile-overlay-img profile-overlay-img-sm'></div>
                                 </div>
                                 <div class='col-xs-12 col-sm-5 no-padding'>".$user_name.":</div> ".str_replace(":msg", $tmp, $span) .
-                            "</div>";
-                $msg.=$respond;
+                "</div>";
+            $msg.=$respond;
         }
         return $msg;
     }
-    
+
     public function validateText($msg)
     {
         $msg = str_replace("/[\r\n]{2,}/i", "\r\n", $msg);
@@ -207,18 +207,18 @@ class ChatController extends \humhub\components\Controller
         $msg = rtrim(preg_replace('/((\<br \/>([\s]*)){2,})/', ' <br>', $msg), ' <br>');
         return $msg;
     }
-    
+
     public function toSmile($data)
     {
         $smiles = WBSChatSmile::find()->all();
         foreach ($smiles as $smile) {
             $absoluteUrl = Yii::$app->request->getBaseUrl();
             $data = preg_replace('/'. quotemeta($smile->symbol) .'/', "<img src='$absoluteUrl/uploads/emojione/$smile->link' data-symbol='$smile->symbol'>", $data);
-       }
-        
+        }
+
         return $data;
     }
-    
+
     public function toLink($data)
     {
         $linkReplace = preg_replace('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', " <a target='_blank' style='color:blue;text-decoration:underline;' href='$0'> $0 </a> ", $data);
@@ -231,33 +231,36 @@ class ChatController extends \humhub\components\Controller
         require_once dirname(__DIR__) . "/lib/DOM/dom.php";
         $htmlText = str_get_html($data);
         $imageText = '';
-        if(!empty($htmlText->find('a', 0))) {
-            preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $htmlText->find('a', 0)->href, $matches);
-            if(!empty($matches)) {
-                if($this->ifImage($matches[0])) {
-                    $this->imageUrl = $matches[0];
-                    return;
-                }
-                $url = $matches[0];
-                $htmlContent = file_get_html($url);
-                $urlHost = parse_url($url)['scheme'] ."://".parse_url($url)['host'] . "";
-                // Find all images
-                if(isset($htmlContent->find('img', 1)->src)) {
-                    preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $htmlContent->find('img', 1)->src, $matchesContent);
-                    try {
-                        if (empty($matchesContent)) {
+        if(!empty($htmlText)) {
+            $search = $htmlText->find('a', 0);
+            if(!empty($search)) {
+                preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $search->href, $matches);
+                if(!empty($matches)) {
+                    if($this->ifImage($matches[0])) {
+                        $this->imageUrl = $matches[0];
+                        return;
+                    }
+                    $url = $matches[0];
+                    $htmlContent = file_get_html($url);
+                    $urlHost = parse_url($url)['scheme'] ."://".parse_url($url)['host'] . "";
+                    // Find all images
+                    if(isset($htmlContent->find('img', 1)->src)) {
+                        preg_match('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $htmlContent->find('img', 1)->src, $matchesContent);
+                        try {
+                            if (empty($matchesContent)) {
 //                            if (@getimagesize($urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src)) {
                                 $this->imageHost = $htmlText->find('a', 0)->href;
                                 $this->imageUrl = $urlHost . DIRECTORY_SEPARATOR . $htmlContent->find('img', 1)->src;
 //                            }
-                        } else {
+                            } else {
 //                            if (@getimagesize($htmlContent->find('img', 1)->src)) {
                                 $this->imageHost = $htmlText->find('a', 0)->href;
                                 $this->imageUrl = $htmlContent->find('img', 1)->src;
 //                            }
+                            }
+                        } catch (\Exception $e) {
+                            //
                         }
-                    } catch (\Exception $e) {
-                        //
                     }
                 }
             }
@@ -282,7 +285,7 @@ class ChatController extends \humhub\components\Controller
             $symbol = $icon->symbol;
             $img .= "<img data-symbol='$symbol' class='icon' src='$iconLink' />";
         }
-        
+
         return $img;
     }
 }
